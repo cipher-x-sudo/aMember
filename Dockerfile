@@ -17,10 +17,11 @@ RUN apt-get update && apt-get install -y \
 # Install dom first (required by xmlreader)
 RUN docker-php-ext-install dom
 
-# Verify dom headers are installed before xmlreader
-RUN test -f /usr/local/include/php/ext/dom/dom_ce.h || (echo "ERROR: dom headers not found" && exit 1)
+# Verify dom headers exist (check both installed and source locations)
+RUN (test -f /usr/local/include/php/ext/dom/dom_ce.h || test -f /usr/src/php/ext/dom/dom_ce.h) || (echo "ERROR: dom headers not found in expected locations" && ls -la /usr/local/include/php/ext/ 2>/dev/null || true && ls -la /usr/src/php/ext/dom/ 2>/dev/null || true && exit 1)
 
 # Install xmlreader after dom (depends on dom headers)
+# Note: xmlreader looks for headers in the PHP source tree during compilation
 RUN docker-php-ext-install xmlreader
 
 # Install remaining extensions
