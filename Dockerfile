@@ -29,12 +29,18 @@ RUN docker-php-ext-configure dom && \
     mkdir -p /usr/src/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/src/php/ext/dom/ 2>/dev/null || true && \
     echo "Headers restored to source tree:" && ls -la /usr/src/php/ext/dom/*.h 2>/dev/null || echo "No headers in source tree" && \
-    # Also copy headers to installed location where compiler looks (with -I/usr/local/include/php/ext)
+    # Also copy headers to installed location where compiler looks
+    # With -I/usr/local/include/php/ext and #include "ext/dom/dom_ce.h", 
+    # compiler looks for /usr/local/include/php/ext/ext/dom/dom_ce.h
+    mkdir -p /usr/local/include/php/ext/ext/dom && \
+    cp /tmp/dom-headers/*.h /usr/local/include/php/ext/ext/dom/ 2>/dev/null || true && \
+    echo "Headers copied to installed location:" && ls -la /usr/local/include/php/ext/ext/dom/ 2>/dev/null || echo "No headers in installed location" && \
+    # Also copy to /usr/local/include/php/ext/dom/ as backup
     mkdir -p /usr/local/include/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/local/include/php/ext/dom/ 2>/dev/null || true && \
-    echo "Headers copied to installed location:" && ls -la /usr/local/include/php/ext/dom/ 2>/dev/null || echo "No headers in installed location" && \
     # Verify dom_ce.h exists in both locations
-    test -f /usr/local/include/php/ext/dom/dom_ce.h && echo "dom_ce.h found in installed location" || echo "ERROR: dom_ce.h NOT found in installed location" && \
+    test -f /usr/local/include/php/ext/ext/dom/dom_ce.h && echo "dom_ce.h found in installed location (ext/ext/dom)" || echo "ERROR: dom_ce.h NOT found in installed location (ext/ext/dom)" && \
+    test -f /usr/local/include/php/ext/dom/dom_ce.h && echo "dom_ce.h found in installed location (ext/dom)" || echo "ERROR: dom_ce.h NOT found in installed location (ext/dom)" && \
     test -f /usr/src/php/ext/dom/dom_ce.h && echo "dom_ce.h found in source tree" || echo "ERROR: dom_ce.h NOT found in source tree" && \
     rm -rf /tmp/dom-headers && \
     # Now install xmlreader - it will find dom headers in installed location
