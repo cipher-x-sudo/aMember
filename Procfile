@@ -1,2 +1,2 @@
-web: php -S 0.0.0.0:$PORT -t . index.php
+web: php -S 0.0.0.0:$PORT router.php
 

@@ -19,5 +19,5 @@ nixPkgs = [
 cmds = []
 
 [start]
-cmd = "php -S 0.0.0.0:$PORT -t . index.php"
+cmd = "php -S 0.0.0.0:$PORT router.php"
 
