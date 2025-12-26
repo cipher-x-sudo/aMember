@@ -20,13 +20,17 @@ RUN docker-php-ext-configure dom && \
     cd /usr/src/php/ext/dom && \
     make -j$(nproc) && \
     # Preserve dom headers from source tree before cleanup (dom_ce.h is generated during build)
+    # Check all possible locations for dom_ce.h
     mkdir -p /tmp/dom-headers && \
-    cp *.h /tmp/dom-headers/ 2>/dev/null || true && \
+    (find . -name "dom_ce.h" -exec cp {} /tmp/dom-headers/ \; 2>/dev/null || echo "dom_ce.h not found") && \
+    (find . -maxdepth 1 -name "*.h" -exec cp {} /tmp/dom-headers/ \; 2>/dev/null || true) && \
+    (ls -la /tmp/dom-headers/ || echo "No headers found") && \
     # Install dom (this will cleanup source tree)
     make install && \
     # Restore preserved headers to source tree for xmlreader compilation
     mkdir -p /usr/src/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/src/php/ext/dom/ 2>/dev/null || true && \
+    (ls -la /usr/src/php/ext/dom/ || echo "Headers not restored") && \
     rm -rf /tmp/dom-headers && \
     # Now install xmlreader - it will find dom headers in source tree
     docker-php-ext-install xmlreader
