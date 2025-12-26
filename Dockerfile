@@ -14,18 +14,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-# Install dom first (required by xmlreader)
-RUN docker-php-ext-install dom
-
-# Verify dom headers exist and list what's actually there
-RUN echo "Checking dom headers..." && \
-    (test -d /usr/local/include/php/ext/dom && echo "dom directory exists" && find /usr/local/include/php/ext/dom -type f | head -10 || echo "dom directory not found") && \
-    (test -d /usr/src/php/ext/dom && echo "dom source directory exists" && find /usr/src/php/ext/dom -name "*.h" | head -10 || echo "dom source directory not found") && \
-    echo "Header check complete"
-
-# Install xmlreader after dom (depends on dom headers)
-# Note: xmlreader looks for headers in the PHP source tree during compilation
-RUN docker-php-ext-install xmlreader
+# Install dom first, then xmlreader sequentially to ensure dom headers are available
+RUN docker-php-ext-install dom && \
+    docker-php-ext-install xmlreader
 
 # Install remaining extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
