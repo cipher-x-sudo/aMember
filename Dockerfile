@@ -14,16 +14,21 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-# Install dom first, then ensure its headers are available for xmlreader compilation
-RUN docker-php-ext-install dom && \
-    # Copy dom headers to source tree (xmlreader looks for ext/dom/dom_ce.h during compilation)
-    # First, check what's actually in the installed location and copy everything
-    (ls -la /usr/local/include/php/ext/dom/ 2>/dev/null || echo "dom headers directory not found") && \
-    if [ -d /usr/local/include/php/ext/dom ]; then \
-        mkdir -p /usr/src/php/ext/dom; \
-        cp -r /usr/local/include/php/ext/dom/* /usr/src/php/ext/dom/ 2>/dev/null || true; \
-        ls -la /usr/src/php/ext/dom/ || true; \
-    fi && \
+# Install dom first, then preserve its headers for xmlreader compilation
+# dom_ce.h is generated during build but not installed - we need to preserve it from source tree
+RUN docker-php-ext-configure dom && \
+    cd /usr/src/php/ext/dom && \
+    make -j$(nproc) && \
+    # Preserve dom headers from source tree before cleanup (dom_ce.h is generated during build)
+    mkdir -p /tmp/dom-headers && \
+    cp *.h /tmp/dom-headers/ 2>/dev/null || true && \
+    # Install dom (this will cleanup source tree)
+    make install && \
+    # Restore preserved headers to source tree for xmlreader compilation
+    mkdir -p /usr/src/php/ext/dom && \
+    cp /tmp/dom-headers/*.h /usr/src/php/ext/dom/ 2>/dev/null || true && \
+    rm -rf /tmp/dom-headers && \
+    # Now install xmlreader - it will find dom headers in source tree
     docker-php-ext-install xmlreader
 
 # Install remaining extensions
