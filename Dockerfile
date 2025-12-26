@@ -30,9 +30,12 @@ RUN docker-php-ext-configure dom && \
     # Restore preserved headers to source tree for xmlreader compilation
     mkdir -p /usr/src/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/src/php/ext/dom/ 2>/dev/null || true && \
+    # Also copy headers to installed location where compiler looks (with -I/usr/local/include/php/ext)
+    mkdir -p /usr/local/include/php/ext/dom && \
+    cp /tmp/dom-headers/*.h /usr/local/include/php/ext/dom/ 2>/dev/null || true && \
     (ls -la /usr/src/php/ext/dom/ || echo "Headers not restored") && \
     rm -rf /tmp/dom-headers && \
-    # Now install xmlreader - it will find dom headers in source tree
+    # Now install xmlreader - it will find dom headers in installed location
     docker-php-ext-install xmlreader
 
 # Install remaining extensions
