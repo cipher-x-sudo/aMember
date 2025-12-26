@@ -1,0 +1,29 @@
+[phases.setup]
+nixPkgs = [
+  "php80",
+  "php80Extensions.pdo",
+  "php80Extensions.pdo_mysql",
+  "php80Extensions.gd",
+  "php80Extensions.openssl",
+  "php80Extensions.mbstring",
+  "php80Extensions.iconv",
+  "php80Extensions.xml",
+  "php80Extensions.xmlwriter",
+  "php80Extensions.xmlreader",
+  "php80Extensions.ctype",
+  "php80Extensions.curl",
+  "php80Extensions.zip",
+  "nginx"
+]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader || true"
+]
+
+[start]
+cmd = "chmod +x start.sh && ./start.sh"
+
+[staticAssets]
+publicDir = "data/public"
+

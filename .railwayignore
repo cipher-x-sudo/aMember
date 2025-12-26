@@ -1,0 +1,52 @@
+# Development files
+*.log
+*.tmp
+*.cache
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README*
+LICENSE*
+CHANGELOG*
+
+# Test files
+tests/
+test/
+phpunit.xml
+.phpunit.result.cache
+
+# Build artifacts
+node_modules/
+vendor/bin/
+vendor/composer/
+
+# Local configuration
+application/configs/config.php
+application/configs/key.php
+application/configs/site.php
+application/configs/site.js
+
+# Cache and temporary data
+data/cache/*
+!data/cache/.gitkeep
+data/new-rewrite/*
+!data/new-rewrite/.gitkeep
+
+# Uploads (if not needed in production)
+data/upload/*
+!data/upload/.gitkeep
+
