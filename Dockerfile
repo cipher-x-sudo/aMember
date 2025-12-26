@@ -14,8 +14,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-# Install dom and xmlreader together (xmlreader depends on dom headers)
-RUN docker-php-ext-install dom xmlreader
+# Install dom first (required by xmlreader)
+RUN docker-php-ext-install dom
+
+# Install xmlreader after dom (depends on dom headers)
+RUN docker-php-ext-install xmlreader
 
 # Install remaining extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
