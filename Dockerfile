@@ -14,8 +14,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-# Install dom first, then xmlreader sequentially to ensure dom headers are available
+# Install dom first, then ensure its headers are available for xmlreader compilation
 RUN docker-php-ext-install dom && \
+    # Ensure dom headers are available in source tree for xmlreader compilation
+    # The headers should be in /usr/local/include/php/ext/dom/ after dom installation
+    if [ -d /usr/local/include/php/ext/dom ]; then \
+        mkdir -p /usr/src/php/ext/dom/include; \
+        cp -r /usr/local/include/php/ext/dom/*.h /usr/src/php/ext/dom/include/ 2>/dev/null || true; \
+    fi && \
     docker-php-ext-install xmlreader
 
 # Install remaining extensions
