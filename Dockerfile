@@ -16,11 +16,11 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 # Install dom first, then ensure its headers are available for xmlreader compilation
 RUN docker-php-ext-install dom && \
-    # Ensure dom headers are available in source tree for xmlreader compilation
-    # The headers should be in /usr/local/include/php/ext/dom/ after dom installation
+    # Copy dom headers to source tree (xmlreader looks for ext/dom/dom_ce.h during compilation)
+    # Headers need to be in /usr/src/php/ext/dom/ directly, not in a subdirectory
     if [ -d /usr/local/include/php/ext/dom ]; then \
-        mkdir -p /usr/src/php/ext/dom/include; \
-        cp -r /usr/local/include/php/ext/dom/*.h /usr/src/php/ext/dom/include/ 2>/dev/null || true; \
+        mkdir -p /usr/src/php/ext/dom; \
+        cp -r /usr/local/include/php/ext/dom/*.h /usr/src/php/ext/dom/ 2>/dev/null || true; \
     fi && \
     docker-php-ext-install xmlreader
 
