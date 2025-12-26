@@ -21,6 +21,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     gd \
     mbstring \
     iconv \
+    dom \
     xml \
     xmlwriter \
     xmlreader \
