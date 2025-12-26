@@ -1,5 +1,16 @@
 # Railway Deployment Guide for aMember Pro
 
+## Deployment Method
+
+This application now uses **Docker** for deployment. Railway will automatically detect the `Dockerfile` and build a container with:
+- Nginx web server
+- PHP 8.1-FPM
+- All required PHP extensions
+- IonCube Loader
+- Proper URL rewriting configuration
+
+**Note:** For Docker deployment details, see [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
+
 ## Environment Variables
 
 Set these environment variables in your Railway project dashboard:
@@ -81,4 +92,5 @@ AM_SECRET_KEY=<generate-a-random-string>
 - Nginx is configured via `nginx.conf` for proper URL rewriting
 - Static assets are served from `data/public/`
 - Make sure `data/`, `data/cache`, `data/new-rewrite/`, and `data/public/` are writable
+
 

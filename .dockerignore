@@ -1,0 +1,67 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README*
+LICENSE*
+CHANGELOG*
+RAILWAY_DEPLOYMENT.md
+DOCKER_DEPLOYMENT.md
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker files (don't include in build context)
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Development files
+*.log
+*.tmp
+*.cache
+
+# Test files
+tests/
+test/
+phpunit.xml
+.phpunit.result.cache
+
+# Build artifacts
+node_modules/
+vendor/bin/
+vendor/composer/
+
+# Local configuration (will be created at runtime)
+application/configs/config.php
+application/configs/key.php
+application/configs/site.php
+application/configs/site.js
+
+# Cache and temporary data (will be created at runtime)
+data/cache/*
+!data/cache/.gitkeep
+data/new-rewrite/*
+!data/new-rewrite/.gitkeep
+data/upload/*
+!data/upload/.gitkeep
+
+# Railway specific files
+.railwayignore
+railway.json
+nixpacks.toml
+Procfile
+runtime.txt
+router.php
+start.sh
+install-ioncube.sh
+

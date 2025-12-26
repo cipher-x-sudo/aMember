@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  amember:
+    build: .
+    container_name: amember-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html
+      - ./data:/var/www/html/data
+    environment:
+      - DB_MYSQL_HOST=mysql
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_DB=amember
+      - DB_MYSQL_USER=amember_user
+      - DB_MYSQL_PASS=amember_pass
+      - DB_MYSQL_PREFIX=am_
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: amember-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=amember
+      - MYSQL_USER=amember_user
+      - MYSQL_PASSWORD=amember_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
