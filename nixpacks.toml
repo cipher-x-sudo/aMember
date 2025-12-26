@@ -1,18 +1,18 @@
 [phases.setup]
 nixPkgs = [
-  "php80",
-  "php80Extensions.pdo",
-  "php80Extensions.pdo_mysql",
-  "php80Extensions.gd",
-  "php80Extensions.openssl",
-  "php80Extensions.mbstring",
-  "php80Extensions.iconv",
-  "php80Extensions.xml",
-  "php80Extensions.xmlwriter",
-  "php80Extensions.xmlreader",
-  "php80Extensions.ctype",
-  "php80Extensions.curl",
-  "php80Extensions.zip"
+  "php81",
+  "php81Extensions.pdo",
+  "php81Extensions.pdo_mysql",
+  "php81Extensions.gd",
+  "php81Extensions.openssl",
+  "php81Extensions.mbstring",
+  "php81Extensions.iconv",
+  "php81Extensions.xml",
+  "php81Extensions.xmlwriter",
+  "php81Extensions.xmlreader",
+  "php81Extensions.ctype",
+  "php81Extensions.curl",
+  "php81Extensions.zip"
 ]
 
 [phases.install]
