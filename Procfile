@@ -1,2 +1,2 @@
-web: chmod +x start.sh && ./start.sh
+web: php -S 0.0.0.0:$PORT -t . index.php
 

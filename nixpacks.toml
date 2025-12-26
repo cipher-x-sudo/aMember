@@ -12,18 +12,12 @@ nixPkgs = [
   "php80Extensions.xmlreader",
   "php80Extensions.ctype",
   "php80Extensions.curl",
-  "php80Extensions.zip",
-  "nginx"
+  "php80Extensions.zip"
 ]
 
 [phases.install]
-cmds = [
-  "composer install --no-dev --optimize-autoloader || true"
-]
+cmds = []
 
 [start]
-cmd = "chmod +x start.sh && ./start.sh"
-
-[staticAssets]
-publicDir = "data/public"
+cmd = "php -S 0.0.0.0:$PORT -t . index.php"
 

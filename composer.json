@@ -1,0 +1,14 @@
+{
+    "name": "amember/amember-pro",
+    "description": "aMember Pro - Membership Management System",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}
+
