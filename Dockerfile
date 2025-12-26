@@ -101,8 +101,8 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/data/new-rewrite \
     && chmod -R 777 /var/www/html/data/public
 
-# Copy Nginx configuration
-COPY nginx.conf /etc/nginx/sites-available/default
+# Copy Nginx configuration (replace main config file)
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
@@ -113,7 +113,7 @@ php-fpm -D\n\
 \n\
 # Replace PORT in nginx config if provided\n\
 if [ ! -z "$PORT" ]; then\n\
-    sed -i "s/listen 8080;/listen $PORT;/g" /etc/nginx/sites-available/default\n\
+    sed -i "s/listen 8080;/listen $PORT;/g" /etc/nginx/nginx.conf\n\
 fi\n\
 \n\
 # Start Nginx in foreground\n\
