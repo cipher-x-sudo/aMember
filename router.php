@@ -23,6 +23,20 @@ if ($requestPath === 'js.php') {
     exit;
 }
 
+// Handle setup directory
+if (preg_match('#^setup(/.*)?$#', $requestPath)) {
+    $setupPath = __DIR__ . '/setup/index.php';
+    if (file_exists($setupPath)) {
+        // Preserve query string
+        if ($queryString) {
+            $_SERVER['QUERY_STRING'] = $queryString;
+            parse_str($queryString, $_GET);
+        }
+        require_once $setupPath;
+        exit;
+    }
+}
+
 // Handle static files (don't process through index.php)
 $staticExtensions = ['js', 'ico', 'gif', 'jpg', 'jpeg', 'png', 'css', 'swf', 'csv', 'html', 'pdf', 'woff', 'woff2', 'ttf', 'eot', 'svg', 'css.map', 'js.map'];
 $extension = pathinfo($requestPath, PATHINFO_EXTENSION);
@@ -32,6 +46,12 @@ if (in_array(strtolower($extension), $staticExtensions)) {
     if (file_exists($filePath) && is_file($filePath)) {
         return false; // Let PHP built-in server serve it
     }
+}
+
+// Check if the requested file exists and serve it directly
+$filePath = __DIR__ . '/' . $requestPath;
+if (file_exists($filePath) && is_file($filePath) && !is_dir($filePath)) {
+    return false; // Let PHP built-in server serve it
 }
 
 // All other requests go to index.php
