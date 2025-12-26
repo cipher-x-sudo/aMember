@@ -20,20 +20,22 @@ RUN docker-php-ext-configure dom && \
     cd /usr/src/php/ext/dom && \
     make -j$(nproc) && \
     # Preserve dom headers from source tree before cleanup (dom_ce.h is generated during build)
-    # Check all possible locations for dom_ce.h
     mkdir -p /tmp/dom-headers && \
-    (find . -name "dom_ce.h" -exec cp {} /tmp/dom-headers/ \; 2>/dev/null || echo "dom_ce.h not found") && \
-    (find . -maxdepth 1 -name "*.h" -exec cp {} /tmp/dom-headers/ \; 2>/dev/null || true) && \
-    (ls -la /tmp/dom-headers/ || echo "No headers found") && \
+    find . -name "*.h" -exec cp {} /tmp/dom-headers/ \; 2>/dev/null || true && \
+    echo "Preserved headers:" && ls -la /tmp/dom-headers/ || echo "No headers found" && \
     # Install dom (this will cleanup source tree)
     make install && \
     # Restore preserved headers to source tree for xmlreader compilation
     mkdir -p /usr/src/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/src/php/ext/dom/ 2>/dev/null || true && \
+    echo "Headers restored to source tree:" && ls -la /usr/src/php/ext/dom/*.h 2>/dev/null || echo "No headers in source tree" && \
     # Also copy headers to installed location where compiler looks (with -I/usr/local/include/php/ext)
     mkdir -p /usr/local/include/php/ext/dom && \
     cp /tmp/dom-headers/*.h /usr/local/include/php/ext/dom/ 2>/dev/null || true && \
-    (ls -la /usr/src/php/ext/dom/ || echo "Headers not restored") && \
+    echo "Headers copied to installed location:" && ls -la /usr/local/include/php/ext/dom/ 2>/dev/null || echo "No headers in installed location" && \
+    # Verify dom_ce.h exists in both locations
+    test -f /usr/local/include/php/ext/dom/dom_ce.h && echo "dom_ce.h found in installed location" || echo "ERROR: dom_ce.h NOT found in installed location" && \
+    test -f /usr/src/php/ext/dom/dom_ce.h && echo "dom_ce.h found in source tree" || echo "ERROR: dom_ce.h NOT found in source tree" && \
     rm -rf /tmp/dom-headers && \
     # Now install xmlreader - it will find dom headers in installed location
     docker-php-ext-install xmlreader
