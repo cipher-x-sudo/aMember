@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
+# Install dom first (required by xmlreader)
+RUN docker-php-ext-install dom
+
+# Install remaining extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     pdo \
@@ -21,7 +25,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     gd \
     mbstring \
     iconv \
-    dom \
     xml \
     xmlwriter \
     xmlreader \
