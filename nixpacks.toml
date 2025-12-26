@@ -12,11 +12,16 @@ nixPkgs = [
   "php81Extensions.xmlreader",
   "php81Extensions.ctype",
   "php81Extensions.curl",
-  "php81Extensions.zip"
+  "php81Extensions.zip",
+  "wget",
+  "curl"
 ]
 
 [phases.install]
-cmds = []
+cmds = [
+  "chmod +x install-ioncube.sh || true",
+  "./install-ioncube.sh || true"
+]
 
 [start]
 cmd = "php -S 0.0.0.0:$PORT router.php"
