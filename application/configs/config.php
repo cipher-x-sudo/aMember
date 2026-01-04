@@ -16,24 +16,33 @@
 
 const AM_USE_NEW_CSS = 1;
 
-// Log that config.php is being loaded (for debugging)
-if (php_sapi_name() !== 'cli') {
-    file_put_contents('php://stderr', "[aMember Config] config.php loaded at " . date('Y-m-d H:i:s') . "\n");
-    error_log("[aMember Config] config.php loaded", 4);
+// Helper function to get environment variable from multiple sources
+// (getenv, $_ENV, $_SERVER - different PHP/Apache configs use different methods)
+function _getEnvVar($name, $default = null) {
+    // Try getenv first
+    $value = getenv($name);
+    if ($value !== false && $value !== '') return $value;
+    
+    // Try $_ENV
+    if (isset($_ENV[$name]) && $_ENV[$name] !== '') return $_ENV[$name];
+    
+    // Try $_SERVER (Apache sometimes puts env vars here)
+    if (isset($_SERVER[$name]) && $_SERVER[$name] !== '') return $_SERVER[$name];
+    
+    return $default;
 }
 
 // Parse database configuration from environment variables
 // Support both Railway's MYSQL_URL format and individual variables
-$dbHost = getenv('MYSQL_HOST') ?: 'mysql';
-$dbPort = getenv('MYSQL_PORT') ?: '3306';
-$dbName = getenv('MYSQL_DATABASE') ?: 'amember';
-$dbUser = getenv('MYSQL_USER') ?: 'amember';
-$dbPass = getenv('MYSQL_PASSWORD') ?: 'amember';
+$dbHost = _getEnvVar('MYSQL_HOST', 'mysql');
+$dbPort = _getEnvVar('MYSQL_PORT', '3306');
+$dbName = _getEnvVar('MYSQL_DATABASE', 'amember');
+$dbUser = _getEnvVar('MYSQL_USER', 'amember');
+$dbPass = _getEnvVar('MYSQL_PASSWORD', 'amember');
 
 // If MYSQL_URL is provided (Railway format: mysql://user:pass@host:port/dbname), parse it
-if (($mysqlUrl = getenv('MYSQL_URL')) || ($mysqlUrl = getenv('DATABASE_URL'))) {
-    fwrite(STDERR, "[aMember Config] Found MYSQL_URL/DATABASE_URL environment variable\n");
-    error_log("[aMember Config] Found MYSQL_URL/DATABASE_URL environment variable", 4); // 4 = send to stderr
+$mysqlUrl = _getEnvVar('MYSQL_URL') ?: _getEnvVar('DATABASE_URL');
+if ($mysqlUrl) {
     $parsed = parse_url($mysqlUrl);
     if ($parsed) {
         $dbHost = isset($parsed['host']) ? $parsed['host'] : $dbHost;
@@ -41,16 +50,7 @@ if (($mysqlUrl = getenv('MYSQL_URL')) || ($mysqlUrl = getenv('DATABASE_URL'))) {
         $dbName = isset($parsed['path']) ? ltrim($parsed['path'], '/') : $dbName;
         $dbUser = isset($parsed['user']) ? $parsed['user'] : $dbUser;
         $dbPass = isset($parsed['pass']) ? $parsed['pass'] : $dbPass;
-        fwrite(STDERR, "[aMember Config] Parsed DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser\n");
-        error_log("[aMember Config] Parsed DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser", 4);
-    } else {
-        fwrite(STDERR, "[aMember Config] Warning: Failed to parse MYSQL_URL\n");
-        error_log("[aMember Config] Warning: Failed to parse MYSQL_URL", 4);
     }
-} else {
-    fwrite(STDERR, "[aMember Config] Using individual environment variables or defaults\n");
-    fwrite(STDERR, "[aMember Config] DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser\n");
-    error_log("[aMember Config] Using individual environment variables or defaults - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser", 4);
 }
 
 return [
