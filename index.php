@@ -1,5 +1,13 @@
 <?php
 
+// Force session cookie settings - MUST be set before session_start() is called
+// Set cookie_domain to empty so browser uses current request host automatically
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+
 // Trust reverse proxy headers (Railway, etc.)
 // This tells PHP that the connection is HTTPS when behind a proxy
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
