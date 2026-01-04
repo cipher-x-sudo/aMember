@@ -1,5 +1,12 @@
 <?php
 
+// Trust reverse proxy headers (Railway, etc.)
+// This tells PHP that the connection is HTTPS when behind a proxy
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['REQUEST_SCHEME'] = 'https';
+}
+
 if (!defined('APPLICATION_CONFIG'))
     define('APPLICATION_CONFIG', dirname(__FILE__) . '/application/configs/config.php');
 
