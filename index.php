@@ -32,6 +32,31 @@ if (isset($_GET['debug'])) {
     echo "session.cookie_httponly: " . ini_get('session.cookie_httponly') . "\n";
     echo "session.cookie_samesite: " . ini_get('session.cookie_samesite') . "\n";
     echo "session.save_path: " . ini_get('session.save_path') . "\n";
+    echo "session.use_cookies: " . ini_get('session.use_cookies') . "\n";
+    echo "session.use_only_cookies: " . ini_get('session.use_only_cookies') . "\n";
+    
+    echo "\n\n=== SESSION TEST ===\n";
+    $sessionPath = ini_get('session.save_path') ?: '/tmp';
+    echo "Session save path: " . $sessionPath . "\n";
+    echo "Path exists: " . (file_exists($sessionPath) ? 'YES' : 'NO') . "\n";
+    echo "Path is writable: " . (is_writable($sessionPath) ? 'YES' : 'NO') . "\n";
+    
+    // Try to start a session
+    @session_start();
+    echo "Session started: " . (session_status() === PHP_SESSION_ACTIVE ? 'YES' : 'NO') . "\n";
+    echo "Session ID: " . session_id() . "\n";
+    $_SESSION['test'] = 'debug_test_' . time();
+    echo "Session test value set: " . $_SESSION['test'] . "\n";
+    
+    echo "\n\n=== REQUEST HEADERS (Proxy Info) ===\n";
+    echo "HTTP_X_FORWARDED_PROTO: " . ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'not set') . "\n";
+    echo "HTTP_X_FORWARDED_FOR: " . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'not set') . "\n";
+    echo "HTTPS: " . ($_SERVER['HTTPS'] ?? 'not set') . "\n";
+    echo "REQUEST_SCHEME: " . ($_SERVER['REQUEST_SCHEME'] ?? 'not set') . "\n";
+    echo "HTTP_HOST: " . ($_SERVER['HTTP_HOST'] ?? 'not set') . "\n";
+    
+    echo "\n\n=== COOKIES RECEIVED ===\n";
+    print_r($_COOKIE);
     
     echo "\n\n=== ENVIRONMENT VARIABLES ===\n";
     echo "MYSQL_URL set: " . (getenv('MYSQL_URL') ? 'YES' : 'NO') . "\n";
