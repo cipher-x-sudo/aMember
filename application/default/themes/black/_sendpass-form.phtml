@@ -1,65 +1,19 @@
 <form name="sendpass" method="post"
-      action="sendpass" class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-8"
-      data-options='{"show_recaptcha":false,"recaptcha_key":null,"recaptcha_theme":"dark","recaptcha_size":"normal","recaptcha_hl":"en_US"}'>
-    <!-- Logo/Title Section -->
-    <div class="text-center mb-8">
-        <div class="text-3xl font-bold text-white mb-2">
-            <span class="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
-                <?php echo $di->config->get('site_title', 'NoxTools'); ?>
-            </span>
-        </div>
-        <h1 class="text-2xl font-semibold text-white">Reset Password</h1>
-        <p class="text-gray-400 mt-3 text-sm">
-            Enter either your email address or username and we will send you a link to reset your password.
-        </p>
-    </div>
-
-    <!-- Message Display -->
-    <div id="msg" class="mb-6"></div>
-
-    <!-- Email/Username Input -->
-    <div class="mb-6">
-        <label for="sendpass" class="block text-sm font-medium text-gray-300 mb-2">
-            Email or Username
-        </label>
-        <div class="relative">
-            <input 
-                type="text" 
-                name="login" 
-                id="sendpass" 
-                placeholder="Enter your email or username" 
-                autocomplete="username"
-                class="w-full px-4 py-3 pl-12 bg-dark-200/50 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-            />
-            <i class="fa fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-        </div>
-    </div>
-
-    <!-- Reset Button -->
-    <button 
-        type="button"
-        id="btn_update"
-        class="w-full bg-gradient-to-r from-primary to-primary-dark hover:from-primary-light hover:to-primary text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark-200 mb-4"
-    >
-        Reset Password
-        <i class="fa fa-arrow-circle-right ml-2"></i>
-    </button>
-
-    <!-- Login Link -->
-    <div class="text-center text-sm text-gray-400">
-        <a href="login" class="text-primary hover:text-primary-light transition-colors font-medium">
-            <i class="fa fa-sign-in mr-1"></i>Already have account? Login.
-        </a>
-    </div>
-
-    <!-- Footer -->
-    <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-gray-500">
-        Secured Login · Encrypted
+      action="sendpass" class="frm-single" data-options="{&quot;show_recaptcha&quot;:false,&quot;recaptcha_key&quot;:null,&quot;recaptcha_theme&quot;:&quot;light&quot;,&quot;recaptcha_size&quot;:&quot;normal&quot;,&quot;recaptcha_hl&quot;:&quot;en_US&quot;}" data-cf-modified-779b166e0ffca2f76cbcb2e8-="">
+    <div class="inside">
+        <div class="title"><strong>Toolssandesh</strong></div>
+        <div class="frm-title">Reset Password</div>
+        <div id="msg"></div>
+        <p class="text-center">Enter either your email address or username and we will send you a link to reset your password.</p>
+        <div class="frm-input"><input type="text" name="login" id="sendpass" size="15" placeholder="Username/Email" class="frm-inp" autocomplete="username" /><i class="fa fa-envelope frm-ico"></i></div>
+        <div id="btn_update" class="btn btn-orange" style="width: 100%;margin-bottom: 15px;background-color: #f1541f;">Reset<i class="fa fa-arrow-circle-right"></i></div>
+        <a href="login" class="a-link"><i class="fa fa-sign-in"></i>Already have account? Login.</a>
+        <div class="frm-footer">&copy Toolssandesh - 2025</div>
     </div>
 </form>
 <script type="text/javascript">
 $(document).on("click", "#btn_update", ajaxFunction);
-$(document).on("keypress", "#sendpass", function (e) {
+$(document).on("keypress", "#btn_update", function (e) {
     if (e.keyCode == 13){
         e.preventDefault();
         ajaxFunction();
@@ -68,7 +22,7 @@ $(document).on("keypress", "#sendpass", function (e) {
 function ajaxFunction(){
     var email = $("#sendpass").val();
 	if(email == ""){
-		$('#msg').html('<div class="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-4">Please Enter Email Address</div>');
+		alert("Please Enter Email Address");
 	}
 	else{
 	    $.ajax({
@@ -83,12 +37,12 @@ function ajaxFunction(){
                     obj = JSON.parse(data);
                     result = obj.error[0];
                     if(obj.ok[0] == true){
-            			$('#msg').html('<div class="bg-green-500/20 border border-green-500/50 text-green-300 px-4 py-3 rounded-lg mb-4"><i class="fa fa-check-circle mr-2"></i>' + result + '</div>');
+            			$('#msg').html("<div class=\"box-content card bordered-all success\"><h4 class=\"box-title bg-success\">" + result + "</h4>");
             		}else {
-            		    $('#msg').html('<div class="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-4"><i class="fa fa-exclamation-circle mr-2"></i>' + result + '</div>');
+            		    $('#msg').html("<div class=\"box-content card bordered-all danger\"><h4 class=\"box-title bg-danger\">" + result + "</h4>");
                     }
                 } else {
-                    $('#msg').html('<div class="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-4"><i class="fa fa-exclamation-circle mr-2"></i>There are some internal issues, please contact us</div>');
+                    $('#msg').html('<div class="box-content card bordered-all danger"><h4 class="box-title bg-danger">There are some internal issues, please contact us</h4>');
                 }
             }
         });

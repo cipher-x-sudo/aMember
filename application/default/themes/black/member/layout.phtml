@@ -3,15 +3,13 @@
  * That is layout for member.phtml - based pages - with tab menu on top
  * it is automatically inserted into your site layout:
  */
-if (empty($title))
-    $title = ___('Your Membership Information');
+if (empty($title)) $title = ___('Your Membership Information');
 
 $di = Am_Di::getInstance();
 $user = $di->auth->getUser();
 ?>
 <!DOCTYPE html>
-<html dir="ltr" lang="en" class="dark">
-
+<html dir="ltr" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +20,7 @@ $user = $di->auth->getUser();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?php $this->printLayoutHead(); ?>
+        <?php $this->printLayoutHead(); ?>
     <!-- Custom CSS -->
     <link href="<?php p($this->_scriptCss("c3.min.css")); ?>" rel="stylesheet">
     <link href="<?php p($this->_scriptCss("noobjoker.css")); ?>" rel="stylesheet">
@@ -30,123 +28,123 @@ $user = $di->auth->getUser();
     <link href="<?php p($this->_scriptCss("jquery-jvectormap-2.0.2.css")); ?>" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?php p($this->_scriptCss("style.member.min.css")); ?>" rel="stylesheet">
-    <!-- Tailwind CSS CDN - Config loaded via Theme.php -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <!--<![endif]-->
-
+    
 
     <!-- Pixel Code for https://my.popify.site/ -->
-    <script async src="https://my.popiiufy.site/pixel/6yimrxr2v41pc6rwsaylkpyr8cal9b3h"></script>
-    <!-- END Pixel Code -->
+<script async src="https://my.popiiufy.site/pixel/6yimrxr2v41pc6rwsaylkpyr8cal9b3h"></script>
+<!-- END Pixel Code -->
 </head>
-
-<body class="bg-dark-100 text-white">
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
+<body>
+<!-- ============================================================== -->
+<!-- Preloader - style you can find in spinners.css -->
+<!-- ============================================================== -->
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
     </div>
+</div>
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
     <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- Topbar header - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar bg-dark-200/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50" data-navbarbg="skin6">
-            <nav class="navbar top-navbar navbar-expand-md">
-                <div class="navbar-header" data-logobg="skin6">
-                    <!-- This is for the sidebar toggle which is visible on mobile only -->
-                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+    <header class="topbar" data-navbarbg="skin6">
+        <nav class="navbar top-navbar navbar-expand-md">
+            <div class="navbar-header" data-logobg="skin6">
+                <!-- This is for the sidebar toggle which is visible on mobile only -->
+                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                             class="ti-menu ti-close"></i></a>
-                    <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
-                    <div class="navbar-brand">
-                        <!-- Modern Text Logo -->
-                        <a href="<?php echo $di->url('member'); ?>" class="flex items-center gap-2 no-underline">
-                            <span
-                                class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
-                                <?php echo $di->config->get('site_title', 'Dashboard'); ?>
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-brand">
+
+                    <!-- Logo text -->
+                    <span class="logo-text">
+                                <!-- dark Logo text -->
+                                <img style="width:140px; hight:40px; padding-top:14px;" src="<?php p($this->_scriptImg("logo.png")); ?>" alt="homepage" class="dark-logo" />
+                        <!-- Light Logo text -->
+                                <img style="width:140px; hight:40px; padding-top:14px;" src="<?php p($this->_scriptImg("logo.png")); ?>" class="light-logo" alt="homepage" />
                             </span>
-                        </a>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- Toggle which is visible on mobile only -->
-                    <!-- ============================================================== -->
-                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
-                        data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                            class="ti-more"></i></a>
+                    </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <!-- ============================================================== -->
+                <!-- Toggle which is visible on mobile only -->
+                <!-- ============================================================== -->
+                <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                   data-toggle="collapse" data-target="#navbarSupportedContent"
+                   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ti-more"></i></a>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Logo -->
+            <!-- ============================================================== -->
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <!-- ============================================================== -->
+                <!-- toggle and nav items -->
+                <!-- ============================================================== -->
+                <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
+                    <!-- Notification -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
+                           id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <span></span>
+
+                        </a>
+                    </li>
+                    <!-- End Notification -->
                     <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
+                    <!-- create new -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
-                        <!-- Notification -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
-                                id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <span></span>
-
-                            </a>
-                        </li>
-                        <!-- End Notification -->
-                        <!-- ============================================================== -->
-                        <!-- create new -->
-                        <!-- ============================================================== -->
-                    </ul>
+                </ul>
+                <!-- ============================================================== -->
+                <!-- Right side toggle and nav items -->
+                <!-- ============================================================== -->
+                <ul class="navbar-nav float-right">
                     <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
+                    <!-- User profile and search -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-right">
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <img src="https://secure.gravatar.com/avatar/05a0475c85bf7d27ca0b709c51e2d5de<?php echo md5(strtolower(trim($user->email))); ?>?d=&s=40"
-                                    alt="avatar logo" class="rounded-circle" width="40">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <img src="https://secure.gravatar.com/avatar/05a0475c85bf7d27ca0b709c51e2d5de<?php echo md5( strtolower( trim( $user->email ) ) ); ?>?d=&s=40" alt="avatar logo" class="rounded-circle"
+                                 width="40">
 
 
 
 
 
 
-                                <span class="ml-2 d-none d-lg-inline-block"><span class="text-gray-400">Hello,</span> <span
-                                        class="text-white font-medium"><?php echo $user->login; ?></span> <i
-                                        data-feather="chevron-down" class="svg-icon ml-1"></i></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY bg-dark-200 border border-white/10 rounded-lg shadow-xl">
-                                <a class="dropdown-item text-white hover:bg-primary/20 hover:text-primary transition-colors" href="<?php echo $di->url("profile"); ?>"><i
-                                        data-feather="user" class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
-                                <!--
+                            <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                        class="text-dark"><?php echo $user->login; ?></span> <i data-feather="chevron-down"
+                                                                           class="svg-icon"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                            <a class="dropdown-item" href="<?php echo $di->url("profile"); ?>"><i data-feather="user"
+                                                                                                class="svg-icon mr-2 ml-1"></i>
+                                My Profile</a>
+<!--
 
                             <a class="dropdown-item" href="<?php echo $di->url("profile"); ?>"><i data-feather="settings"
                                                                                                 class="svg-icon mr-2 ml-1"></i>
                                 Account Setting</a>
                                 
                                 -->
-                                <!--
+<!--
                             <a class="dropdown-item" href="<?php echo $di->url("helpdesk"); ?>"><i               class="fas fa-ticket-alt mr-2 ml-1"></i>
                                 Support Tickets</a>
 
@@ -154,252 +152,248 @@ $user = $di->auth->getUser();
                                 Fb chat</a>
                                 
                                 -->
-
-
-                                <a class="dropdown-item text-white hover:bg-primary/20 hover:text-primary transition-colors" href="<?php echo $di->url("logout"); ?>"><i
-                                        data-feather="power" class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
-                                <div class="dropdown-divider border-white/10"></div>
-                            </div>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar bg-dark-200 border-r border-white/10">
-            <div class="scroll-sidebar">
-                <nav class="sidebar-nav p-4">
-                    <ul id="sidebarnav" class="space-y-1">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200 <?php echo (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'member' && Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'index') ? 'bg-primary/20 text-primary border-l-4 border-primary' : ''; ?>"
-                                href="<?php echo $di->url("member"); ?>" aria-expanded="false">
-                                <i data-feather="home" class="feather-icon w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="list-divider border-white/10 my-2"></li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="<?php echo $di->url("member/payment-history"); ?>" aria-expanded="false">
-                                <i class="fab fa-cc-visa w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Transaction History</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="/page/order-renew" aria-expanded="false">
-                                <i class="fas fa-cart-plus w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Subscribe/Renew</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="/profile" aria-expanded="false">
-                                <i class="fa fa-user-circle w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Account Settings</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="/helpdesk" aria-expanded="false">
-                                <i class="fas fa-ticket-alt w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Help Desk</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="/page/faq" aria-expanded="false">
-                                <i class="fas fa-question w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">FAQs</span>
-                            </a>
-                        </li>
-                        <li class="list-divider border-white/10 my-2"></li>
-                        <li class="nav-small-cap px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            <span class="hide-menu">USER GUIDE</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
-                                href="/page/Extention" aria-expanded="false">
-                                <i class="fas fa-download w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Download Extension</span>
-                            </a>
-                        </li>
-                        <li class="list-divider border-white/10 my-2"></li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link flex items-center px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-200"
-                                href="<?php echo $di->url("logout"); ?>" aria-expanded="false">
-                                <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
-                                <span class="hide-menu font-medium">Logout</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                                
+                                
+                            <a class="dropdown-item" href="<?php echo $di->url("logout"); ?>"><i data-feather="power"
+                                                                                               class="svg-icon mr-2 ml-1"></i>
+                                Logout</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </li>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                </ul>
             </div>
-        </aside>
-        <!-- end Left Sidebar - style you can find in sidebar.scss  -->
-        ?>
+        </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
 
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <aside class="left-sidebar" data-sidebarbg="skin6">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="<?php echo $di->url("member"); ?>"
+                                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Dashboard</span></a></li>
+                    <li class="list-divider"></li>
+                    
+              <!--      <li class="nav-small-cap"><span class="hide-menu">Profile</span></li> -->
+<!--
+                    <li class="sidebar-item"> <a class="sidebar-link" href="<?php echo $di->url("profile"); ?>"
+                                                 aria-expanded="false"><i class="fas fa-user"></i><span
+                                    class="hide-menu">Profile
+                                </span></a>
+                    </li>
+                    
+                    -->
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="<?php echo $di->url("member/payment-history"); ?>"
+                                                 aria-expanded="false"><i  class="fab fa-cc-visa"></i><span
+                                    class="hide-menu">Transaction History</span></a></li>
+
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/order-renew"
+                                                 aria-expanded="false"><i  class="fas fa-cart-plus"></i><span
+                                    class="hide-menu">Subscribe/Renew</span></a></li>
+
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/profile"
+                                                 aria-expanded="false"><i  class="fa fa-user-circle"></i><span
+                                    class="hide-menu">Account Settings</span></a></li>
+
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/helpdesk"
+                                                 aria-expanded="false"><i class="fas fa-ticket-alt"></i><span
+                                    class="hide-menu">Help Desk</span></a></li>
+
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/faq"
+                                                 aria-expanded="false"><i class="fas fa-question"></i><span
+                                    class="hide-menu">FAQs</span></a></li> 
+                    <li class="list-divider"></li>
+                    <li class="nav-small-cap"><span class="hide-menu">USER GUIDE</span></li>
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/Extention"
+                                                 aria-expanded="false"><i  class="fas fa-download"></i><span
+                                    class="hide-menu"> Download Extension</span></a></li>
+
+                    <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="https://app.Toolssandesh.com/member/logout"
+                                                 aria-expanded="false"><i class="fas fa-sign-out-alt"></i><span
+                                    class="hide-menu">Logout</span></a></li> 
+                                    
+                     <li class="list-divider"></li>
+                    <li class="nav-small-cap"><span class="hide-menu"></span></li>
+                   
+                   
+                    <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="https://t.me/seo_group_buy" target="_blank"
+                                                 aria-expanded="false"><i class="fab fa-telegram"></i><span
+                                    class="hide-menu">Join Us on Telegram</span></a></li> -->
+                                    
+                    <!--<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="https://t.me/Zerohitss" target="_blank"-->
+                    <!--                             aria-expanded="false"><img src="https://toolzbuy.com/images/Invideo-banner.png" width="200" height="200"></a></li>-->
+
+
+                </ul>
+            </nav>
+            <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+    </aside>
+    <!-- end Left Sidebar - style you can find in sidebar.scss  -->
+    ?>
+
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
         <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <div class="page-breadcrumb bg-dark-200/50 border-b border-white/10 px-6 py-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white mb-1">
-                            👋 Hey, <span class="text-primary"><?php echo $user->login; ?></span>
-                        </h2>
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-7 align-self-center">
+                 <!--   <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Welcome <?php echo $user->login; ?>🎉</h3>
+                 -->
+                 
+                <h2>👋 hey, <?php echo $user->login; ?> </h2>
+                    <div class="d-flex align-items-center">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb m-0 p-0 flex items-center space-x-2 text-sm text-gray-400">
-                                <li class="breadcrumb-item"></li>
+                            <ol class="breadcrumb m-0 p-0">
+                                <li class="breadcrumb-item">
+                                </li>
                             </ol>
                         </nav>
                     </div>
                 </div>
-            </div>
-
-            <div>
-
-
-
 
             </div>
+        </div>
+
+        <div>
 
 
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <div class="container-fluid bg-dark-100 min-h-screen p-6">
-                <?php if (
-                    (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'member' &&
-                        (Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'index'))
-                ): ?>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                        <div class="lg:col-span-1">
-                            <?php echo $this->blocks('member/main/left/top') ?>
-                            <?php echo $this->blocks(
-                                'member/main/left',
-                                '<div class="am-widget bg-dark-200/50 backdrop-blur-xl border border-white/10 rounded-xl p-6 mb-6 shadow-lg" id="widget-%3$s"><h2 id="%3$s-head" class="text-xl font-semibold text-white mb-4">%2$s</h2><div class="am-block" id="%3$s"><div class="bg-green-500/20 border border-green-500/50 text-green-300 rounded-xl p-4" role="alert">%1$s</div></div></div>'
-                            ); ?>
-                            <?php echo $this->blocks('member/main/left/bottom') ?>
-                        </div>
-                        <div class="lg:col-span-2">
-                            <div class="am-body-content">
-                                <div class="am-body-content-content">
-                                    <?php echo $content ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <div class="am-body-content">
-                        <div class="am-body-content-content">
-                            <?php echo $content ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-                <div id="am-flash" class="am-flash">
-                    <div class="am-flash-mask"></div>
-                    <div class="am-flash-content"></div>
+
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- *************************************************************** -->
+            <!-- Start First Cards -->
+            <!-- *************************************************************** -->
+            <?php if ((Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'member' &&
+                (Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'index'))): ?>
+            <?php echo $this->blocks('member/main/left/top') ?>
+            <?php echo $this->blocks('member/main/left',
+                '<div class="am-widget" id="widget-%3$s"><h2 id="%3$s-head">%2$s</h2><div class="am-block" id="%3$s"><div style=" border-radius: 20px; " class="alert alert-success" role="alert">%1$s</div></div></div>'); ?>
+            <?php echo $this->blocks('member/main/left/bottom') ?>
+            <?php endif; ?>
+            <div class="am-body-content">
+                <div class="am-body-content-top">
+
+
+                </div>
+                <div class="am-body-content-content">
+                    <!-- content starts here -->
+                    <?php echo $content ?>
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center py-4 bg-dark-200/50 border-t border-white/10">
-                <p class="text-gray-400 text-sm">&copy; <?php echo date('Y'); ?> <?php echo $di->config->get('site_title', 'NoxTools'); ?>. All rights reserved.</p>
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            <div id="am-flash" class="am-flash">
+                <div class="am-flash-mask"></div>
+                <div class="am-flash-content"></div>
+            </div><br><br>
+            <!-- *************************************************************** -->
+            <!-- End Top Affilate  marketers -->
+            <!-- *************************************************************** -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer text-center text-muted">
+           Made with ❤️ by <a
+                    href="https://Toolssandesh.com">Toolssandesh.com</a>
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
         <!-- ============================================================== -->
     </div>
     <!-- ============================================================== -->
-    <!-- End Wrapper -->
+    <!-- End Page wrapper  -->
     <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script type="text/javascript"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="<?php p($this->_scriptJs("popper.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("bootstrap.member.min.js")); ?>"></script>
-    <!-- apps -->
-    <!-- apps -->
-    <script src="<?php p($this->_scriptJs("app-style-switcher.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("feather.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("perfect-scrollbar.jquery.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("sidebarmenu.js")); ?>"></script>
-    <!--Custom JavaScript -->
-    <script src="<?php p($this->_scriptJs("custom.min.js")); ?>"></script>
-    <!--This page JavaScript -->
-    <script src="<?php p($this->_scriptJs("d3.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("c3.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("chartist.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("chartist-plugin-tooltip.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("jquery-jvectormap-2.0.2.min.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("jquery-jvectormap-world-mill-en.js")); ?>"></script>
-    <script src="<?php p($this->_scriptJs("dashboard1.min.js")); ?>"></script>
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script type="text/javascript" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="<?php p($this->_scriptJs("popper.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("bootstrap.member.min.js")); ?>"></script>
+<!-- apps -->
+<!-- apps -->
+<script src="<?php p($this->_scriptJs("app-style-switcher.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("feather.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("perfect-scrollbar.jquery.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("sidebarmenu.js")); ?>"></script>
+<!--Custom JavaScript -->
+<script src="<?php p($this->_scriptJs("custom.min.js")); ?>"></script>
+<!--This page JavaScript -->
+<script src="<?php p($this->_scriptJs("d3.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("c3.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("chartist.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("chartist-plugin-tooltip.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("jquery-jvectormap-2.0.2.min.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("jquery-jvectormap-world-mill-en.js")); ?>"></script>
+<script src="<?php p($this->_scriptJs("dashboard1.min.js")); ?>"></script>
 </body>
-<script type="text/javascript">
-    var clktime = 0;
-    document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-        clktime++;
-        if (clktime >= 3) {
-            alert("Don't try to Rightclick ! We Will Ban Your Account!");
-        }
-    });
-    document.onkeydown = function (e) {
-        if (event.keyCode == 123) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)) {
-            return false;
-        }
+<script type="text/javascript" >
+var clktime = 0;
+ document.addEventListener("contextmenu", function (e){
+  e.preventDefault();
+  clktime++;
+  if (clktime >= 3){
+    alert("Don't try to Rightclick ! We Will Ban Your Account!");
+  }
+});
+document.onkeydown = function (e) {
+  if (event.keyCode == 123){
+    return false;
+  }
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)){
+    return false;
+  }
 
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)) {
-            return false;
-        }
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)){
+    return false;
+  }
 
-        if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)) {
-            return false;
-        }
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)){
+    return false;
+  }
 
-        if (e.ctrlKey && e.keyCode == "U".charCodeAt(0)) {
-            return false;
-        }
-    }
+  if (e.ctrlKey &&  e.keyCode == "U".charCodeAt(0)){
+    return false;
+  }
+}
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var elementsWithClass = document.querySelectorAll('.am-block');
         var elementWithId = document.getElementById('member-main-resources');
         var elementsWithRowClass = document.querySelectorAll('.row');
@@ -412,21 +406,21 @@ $user = $di->auth->getUser();
 
         if (elementsWithClass) {
             elementsWithClass.forEach(function (element) {
-                element.addEventListener('click', function (event) {
+                element.addEventListener('click', function(event) {
                     addTargetBlank(event.target.closest('a'));
                 });
             });
         }
 
         if (elementWithId) {
-            elementWithId.addEventListener('click', function (event) {
+            elementWithId.addEventListener('click', function(event) {
                 addTargetBlank(event.target.closest('a'));
             });
         }
 
         if (elementsWithRowClass) {
             elementsWithRowClass.forEach(function (element) {
-                element.addEventListener('click', function (event) {
+                element.addEventListener('click', function(event) {
                     addTargetBlank(event.target.closest('a'));
                 });
             });
