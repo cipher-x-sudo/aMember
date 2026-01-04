@@ -16,15 +16,35 @@
 
 const AM_USE_NEW_CSS = 1;
 
+// Parse database configuration from environment variables
+// Support both Railway's MYSQL_URL format and individual variables
+$dbHost = getenv('MYSQL_HOST') ?: 'mysql';
+$dbPort = getenv('MYSQL_PORT') ?: '3306';
+$dbName = getenv('MYSQL_DATABASE') ?: 'amember';
+$dbUser = getenv('MYSQL_USER') ?: 'amember';
+$dbPass = getenv('MYSQL_PASSWORD') ?: 'amember';
+
+// If MYSQL_URL is provided (Railway format: mysql://user:pass@host:port/dbname), parse it
+if (($mysqlUrl = getenv('MYSQL_URL')) || ($mysqlUrl = getenv('DATABASE_URL'))) {
+    $parsed = parse_url($mysqlUrl);
+    if ($parsed) {
+        $dbHost = isset($parsed['host']) ? $parsed['host'] : $dbHost;
+        $dbPort = isset($parsed['port']) ? $parsed['port'] : $dbPort;
+        $dbName = isset($parsed['path']) ? ltrim($parsed['path'], '/') : $dbName;
+        $dbUser = isset($parsed['user']) ? $parsed['user'] : $dbUser;
+        $dbPass = isset($parsed['pass']) ? $parsed['pass'] : $dbPass;
+    }
+}
+
 return [
     'db' => [
         'mysql' => [
-            'db'    => 'amember',
-            'user'  => 'amember',
-            'pass'  => 'amember',
-            'host'  => 'mysql',
+            'db'    => $dbName,
+            'user'  => $dbUser,
+            'pass'  => $dbPass,
+            'host'  => $dbHost,
             'prefix' => 'am_',
-            'port'  => '',
+            'port'  => $dbPort ?: '',
             'pdo_options' => [],
         ],
     ],
