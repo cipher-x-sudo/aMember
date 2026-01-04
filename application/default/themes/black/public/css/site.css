@@ -1,6 +1,7 @@
 /* ============================================
-   MIDNIGHT AURORA - MEMBER DASHBOARD OVERRIDES
+   EMBER DARK - MEMBER DASHBOARD OVERRIDES
    Custom styling for the member dashboard area
+   Orange accent dark theme
    ============================================ */
 
 /* Remove background image from buttons */
@@ -18,15 +19,15 @@
    DASHBOARD WRAPPER OVERRIDES
    ============================================ */
 #main-wrapper {
-    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%) !important;
+    background: linear-gradient(145deg, #0a0a0f 0%, #111118 50%, #0d0d12 100%) !important;
     min-height: 100vh;
 }
 
 #main-wrapper[data-theme="light"] {
-    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%) !important;
+    background: linear-gradient(145deg, #0a0a0f 0%, #111118 50%, #0d0d12 100%) !important;
 }
 
-/* Aurora effect overlay */
+/* Ember glow overlay */
 #main-wrapper::before {
     content: '';
     position: fixed;
@@ -35,8 +36,8 @@
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(ellipse at 20% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+        radial-gradient(ellipse at 30% 10%, rgba(249, 115, 22, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 90%, rgba(251, 191, 36, 0.04) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
@@ -45,16 +46,16 @@
    TOPBAR / HEADER
    ============================================ */
 .topbar {
-    background: rgba(15, 15, 26, 0.95) !important;
+    background: rgba(10, 10, 15, 0.98) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(124, 58, 237, 0.2) !important;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(249, 115, 22, 0.12) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .topbar[data-navbarbg="skin6"],
 header[data-navbarbg="skin6"] {
-    background: rgba(15, 15, 26, 0.95) !important;
+    background: rgba(10, 10, 15, 0.98) !important;
 }
 
 .top-navbar {
@@ -66,13 +67,13 @@ header[data-navbarbg="skin6"] {
 }
 
 /* ============================================
-   SIDEBAR - GLASSMORPHISM
+   SIDEBAR
    ============================================ */
 .left-sidebar {
-    background: rgba(15, 15, 26, 0.98) !important;
+    background: rgba(10, 10, 15, 0.99) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(124, 58, 237, 0.15);
+    border-right: 1px solid rgba(249, 115, 22, 0.08);
 }
 
 .left-sidebar[data-sidebarbg="skin6"],
@@ -82,7 +83,7 @@ header[data-navbarbg="skin6"] {
 
 /* Sidebar Navigation */
 .sidebar-nav ul .sidebar-item .sidebar-link {
-    color: #a1a1aa !important;
+    color: #9ca3af !important;
     transition: all 0.3s ease;
     border-radius: 12px;
     margin: 4px 12px;
@@ -91,25 +92,25 @@ header[data-navbarbg="skin6"] {
 
 .sidebar-nav ul .sidebar-item .sidebar-link:hover,
 .sidebar-nav ul .sidebar-item.selected > .sidebar-link {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.1)) !important;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(251, 191, 36, 0.08)) !important;
     color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.15);
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link i,
 .sidebar-nav ul .sidebar-item .sidebar-link .feather-icon {
-    color: #7c3aed !important;
+    color: #f97316 !important;
     transition: all 0.3s ease;
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link:hover i,
 .sidebar-nav ul .sidebar-item .sidebar-link:hover .feather-icon {
-    color: #06b6d4 !important;
+    color: #fbbf24 !important;
     transform: scale(1.1);
 }
 
 .sidebar-nav .nav-small-cap {
-    color: #52525b !important;
+    color: #4b5563 !important;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -117,7 +118,7 @@ header[data-navbarbg="skin6"] {
 }
 
 .list-divider {
-    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.2), transparent) !important;
+    background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.15), transparent) !important;
     height: 1px !important;
     margin: 10px 20px !important;
 }
@@ -142,7 +143,7 @@ header[data-navbarbg="skin6"] {
    NAVBAR USER DROPDOWN
    ============================================ */
 .navbar-nav .nav-link {
-    color: #a1a1aa !important;
+    color: #9ca3af !important;
 }
 
 .navbar-nav .nav-link:hover {
@@ -150,16 +151,16 @@ header[data-navbarbg="skin6"] {
 }
 
 .dropdown-menu {
-    background: rgba(26, 26, 46, 0.98) !important;
+    background: rgba(17, 17, 24, 0.99) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+    border: 1px solid rgba(249, 115, 22, 0.2) !important;
     border-radius: 16px !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
 }
 
 .dropdown-item {
-    color: #e4e4e7 !important;
+    color: #f5f5f5 !important;
     transition: all 0.3s ease;
     border-radius: 8px;
     margin: 4px 8px;
@@ -168,12 +169,12 @@ header[data-navbarbg="skin6"] {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.1)) !important;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(251, 191, 36, 0.08)) !important;
     color: #ffffff !important;
 }
 
 .dropdown-divider {
-    border-color: rgba(124, 58, 237, 0.2) !important;
+    border-color: rgba(249, 115, 22, 0.15) !important;
 }
 
 .text-dark {
@@ -184,22 +185,22 @@ header[data-navbarbg="skin6"] {
    CARDS & CONTENT BLOCKS
    ============================================ */
 .card {
-    background: rgba(26, 26, 46, 0.8) !important;
+    background: rgba(17, 17, 24, 0.9) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(124, 58, 237, 0.2) !important;
+    border: 1px solid rgba(249, 115, 22, 0.12) !important;
     border-radius: 20px !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
     transition: all 0.3s ease;
 }
 
 .card:hover {
-    border-color: rgba(124, 58, 237, 0.4) !important;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(124, 58, 237, 0.1) !important;
+    border-color: rgba(249, 115, 22, 0.25) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(249, 115, 22, 0.08) !important;
 }
 
 .card-body {
-    color: #e4e4e7;
+    color: #f5f5f5;
 }
 
 .card-title {
@@ -208,30 +209,30 @@ header[data-navbarbg="skin6"] {
 
 /* Alert Styling */
 .alert-success {
-    background: rgba(34, 197, 94, 0.15) !important;
-    border: 1px solid rgba(34, 197, 94, 0.3) !important;
+    background: rgba(34, 197, 94, 0.12) !important;
+    border: 1px solid rgba(34, 197, 94, 0.25) !important;
     color: #4ade80 !important;
     border-radius: 16px !important;
 }
 
 .alert-warning {
-    background: rgba(250, 204, 21, 0.15) !important;
-    border: 1px solid rgba(250, 204, 21, 0.3) !important;
+    background: rgba(251, 191, 36, 0.12) !important;
+    border: 1px solid rgba(251, 191, 36, 0.25) !important;
     color: #fcd34d !important;
     border-radius: 16px !important;
 }
 
 .alert-danger {
-    background: rgba(239, 68, 68, 0.15) !important;
-    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    background: rgba(239, 68, 68, 0.12) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
     color: #fca5a5 !important;
     border-radius: 16px !important;
 }
 
 .alert-info {
-    background: rgba(6, 182, 212, 0.15) !important;
-    border: 1px solid rgba(6, 182, 212, 0.3) !important;
-    color: #67e8f9 !important;
+    background: rgba(249, 115, 22, 0.12) !important;
+    border: 1px solid rgba(249, 115, 22, 0.25) !important;
+    color: #fb923c !important;
     border-radius: 16px !important;
 }
 
@@ -239,31 +240,31 @@ header[data-navbarbg="skin6"] {
    FOOTER
    ============================================ */
 .footer {
-    background: rgba(15, 15, 26, 0.8) !important;
+    background: rgba(10, 10, 15, 0.9) !important;
     backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(124, 58, 237, 0.15);
-    color: #71717a !important;
+    border-top: 1px solid rgba(249, 115, 22, 0.1);
+    color: #6b7280 !important;
 }
 
 .footer a {
-    color: #06b6d4 !important;
+    color: #f97316 !important;
     transition: all 0.3s ease;
 }
 
 .footer a:hover {
-    color: #22d3ee !important;
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    color: #fb923c !important;
+    text-shadow: 0 0 12px rgba(249, 115, 22, 0.5);
 }
 
 /* ============================================
    PRELOADER
    ============================================ */
 .preloader {
-    background: #0f0f1a !important;
+    background: #0a0a0f !important;
 }
 
 .lds-ripple div {
-    border-color: #7c3aed !important;
+    border-color: #f97316 !important;
 }
 
 /* ============================================
@@ -283,76 +284,76 @@ header[data-navbarbg="skin6"] {
    TABLE OVERRIDES
    ============================================ */
 .table {
-    color: #e4e4e7;
+    color: #f5f5f5;
 }
 
 .table thead th {
-    background: rgba(124, 58, 237, 0.15) !important;
-    border-color: rgba(124, 58, 237, 0.2) !important;
-    color: #a1a1aa !important;
+    background: rgba(249, 115, 22, 0.1) !important;
+    border-color: rgba(249, 115, 22, 0.15) !important;
+    color: #9ca3af !important;
 }
 
 .table td,
 .table th {
-    border-color: rgba(124, 58, 237, 0.1) !important;
+    border-color: rgba(249, 115, 22, 0.08) !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background: rgba(15, 15, 26, 0.4) !important;
+    background: rgba(10, 10, 15, 0.5) !important;
 }
 
 .table-hover tbody tr:hover {
-    background: rgba(124, 58, 237, 0.1) !important;
+    background: rgba(249, 115, 22, 0.08) !important;
 }
 
 /* ============================================
    FORM CONTROLS
    ============================================ */
 .form-control {
-    background: rgba(15, 15, 26, 0.8) !important;
-    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+    background: rgba(10, 10, 15, 0.9) !important;
+    border: 1px solid rgba(249, 115, 22, 0.2) !important;
     border-radius: 12px !important;
-    color: #e4e4e7 !important;
+    color: #f5f5f5 !important;
     transition: all 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: #7c3aed !important;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 0 20px rgba(124, 58, 237, 0.15) !important;
-    background: rgba(26, 26, 46, 0.9) !important;
+    border-color: #ea580c !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15), 0 0 25px rgba(249, 115, 22, 0.12) !important;
+    background: rgba(17, 17, 24, 0.95) !important;
 }
 
 .form-control::placeholder {
-    color: #71717a !important;
+    color: #6b7280 !important;
 }
 
 /* ============================================
    BUTTONS
    ============================================ */
 .btn-primary {
-    background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+    background: linear-gradient(135deg, #ea580c, #f97316) !important;
     border: none !important;
     border-radius: 12px !important;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4) !important;
     transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+    background: linear-gradient(135deg, #f97316, #fb923c) !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5), 0 0 30px rgba(124, 58, 237, 0.3) !important;
+    box-shadow: 0 8px 30px rgba(249, 115, 22, 0.5), 0 0 40px rgba(249, 115, 22, 0.25) !important;
 }
 
 .btn-secondary {
-    background: rgba(63, 63, 70, 0.6) !important;
-    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+    background: rgba(55, 55, 65, 0.6) !important;
+    border: 1px solid rgba(249, 115, 22, 0.2) !important;
     border-radius: 12px !important;
-    color: #e4e4e7 !important;
+    color: #f5f5f5 !important;
 }
 
 .btn-secondary:hover {
-    background: rgba(124, 58, 237, 0.2) !important;
-    border-color: rgba(124, 58, 237, 0.5) !important;
+    background: rgba(249, 115, 22, 0.15) !important;
+    border-color: rgba(249, 115, 22, 0.4) !important;
 }
 
 .btn-success {
@@ -376,16 +377,16 @@ header[data-navbarbg="skin6"] {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(15, 15, 26, 0.8);
+    background: rgba(10, 10, 15, 0.9);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    background: linear-gradient(135deg, #ea580c, #f97316);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #f97316, #fb923c);
 }
 
 /* ============================================
@@ -401,7 +402,7 @@ header[data-navbarbg="skin6"] {
 }
 
 .divider {
-    border-bottom: 1px solid rgba(124, 58, 237, 0.2) !important;
+    border-bottom: 1px solid rgba(249, 115, 22, 0.15) !important;
 }
 
 #widget-member-main-unsubscribe {
@@ -417,23 +418,23 @@ header[data-navbarbg="skin6"] {
    ============================================ */
 @media (max-width: 767px) {
     .left-sidebar {
-        background: rgba(15, 15, 26, 0.98) !important;
+        background: rgba(10, 10, 15, 0.99) !important;
     }
     
     .topbar {
-        background: rgba(15, 15, 26, 0.98) !important;
+        background: rgba(10, 10, 15, 0.99) !important;
     }
 }
 
 /* ============================================
    ANIMATION KEYFRAMES
    ============================================ */
-@keyframes glow-pulse {
+@keyframes ember-pulse {
     0%, 100% {
-        box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.25);
     }
     50% {
-        box-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+        box-shadow: 0 0 40px rgba(249, 115, 22, 0.4);
     }
 }
 
