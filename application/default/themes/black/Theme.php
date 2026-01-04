@@ -119,7 +119,7 @@ CUT
             ->setHtml(<<<CUT
 <div id="font-preview" style="opacity:.7; white-space: nowrap; overflow: hidden; text-overflow:ellipsis">Almost before we knew it, we had left the ground.</div>
 CUT
-        );
+            );
 
         $form->addScript()
             ->setScript(<<<CUT
@@ -134,7 +134,7 @@ jQuery(function(){
     $('[name$=font_size]').change();
 });
 CUT
-        );
+            );
 
         $this->addElementColor($form, 'menu_color', "Menu Color\n" .
             'you can use any valid <a href="http://www.w3schools.com/html/html_colors.asp" class="link" target="_blank" rel="noreferrer">HTML color</a>, you can find useful color palette <a href="http://www.w3schools.com/TAGS/ref_colornames.asp" class="link" target="_blank" rel="noreferrer">here</a>');
@@ -171,7 +171,7 @@ jQuery(function(){
     $('[name$=gravatar][type=checkbox]').change();
 });
 CUT
-        );
+            );
 
         $gr = $form->addGroup()
             ->setLabel(___('Identity Block Position'));
@@ -193,7 +193,7 @@ jQuery(function(){
     $('[name$=identity_align]').change();
 });
 CUT
-        );
+            );
 
         $form->addAdvRadio('identity_type')
             ->setLabel(___("Identity Type\nwhat you want to display in identity block"))
@@ -224,7 +224,7 @@ jQuery(function(){
     $('[name$=menu_dashboard]').change();
 });
 CUT
-        );
+            );
 
         $gr = $form->addGroup()
             ->setLabel(___('Dashboard Layout'));
@@ -250,11 +250,13 @@ CUT
             );
 
         $form->addHtmlEditor('footer', null, ['showInPopup' => true])
-                ->setLabel(___("Footer\nthis content will be included to footer"))
-                ->setMceOptions(['placeholder_items' => [
+            ->setLabel(___("Footer\nthis content will be included to footer"))
+            ->setMceOptions([
+                'placeholder_items' => [
                     ['Current Year', '%year%'],
                     ['Site Title', '%site_title%'],
-                ]])->default = '';
+                ]
+            ])->default = '';
 
         $form->addProlog(<<<CUT
 <style type="text/css">
@@ -338,7 +340,7 @@ CUT
         $form->addSelect('form_theme')->setLabel(___('Form Theme'))
             ->loadOptions($this->getFormThemes());
 
-        $fs = $form->addAdvFieldset('', ['id'=>'sct-login'])
+        $fs = $form->addAdvFieldset('', ['id' => 'sct-login'])
             ->setLabel('Login Page');
 
         $gr = $fs->addGroup()
@@ -351,16 +353,16 @@ CUT
                 'layout.phtml' => ___('Standard'),
                 'layout-login-sidebar.phtml' => ___('Login with Sidebar')
             ]);
-        $fs->addHtmlEditor('login_sidebar', ['id'=>'login-sidebar'], ['showInPopup' => true])
-                ->setLabel(___("Sidebar Content"))
-                ->default = '';
+        $fs->addHtmlEditor('login_sidebar', ['id' => 'login-sidebar'], ['showInPopup' => true])
+            ->setLabel(___("Sidebar Content"))
+            ->default = '';
 
         $fs->addAdvCheckbox('login_no_header')
             ->setLabel(___("Remove Header from Login Page"));
 
         $fs->addUpload('login_logo', null, ['prefix' => 'theme-default'])
-                ->setLabel(___("Logo on Login Form\n" .
-                    'keep it empty if none'))->default = '';
+            ->setLabel(___("Logo on Login Form\n" .
+                'keep it empty if none'))->default = '';
 
         $gr = $fs->addGroup()
             ->setLabel(___('Login Form Type'));
@@ -384,7 +386,7 @@ jQuery(function(){
     $('[name$=login_layout]').change();
 });
 CUT
-        );
+            );
 
         $form->addScript()
             ->setScript(<<<CUT
@@ -400,18 +402,18 @@ CUT
 
         $fs = $form->addAdvFieldset('', ['id' => 'sct-css'])
             ->setLabel(___("Additional CSS"));
-        $fs->addTextarea('css', ['class' => 'am-el-wide am-row-wide', 'rows'=>12])
+        $fs->addTextarea('css', ['class' => 'am-el-wide am-row-wide', 'rows' => 12])
             ->setLabel("Add your own CSS code here to customize the appearance and layout of your site");
 
         $fs = $form->addAdvFieldset('', ['id' => 'sct-bf'])
             ->setLabel(___("Tracking/Widget Code"));
         $fs->addHtml(null, ['class' => 'am-row-wide am-no-label'])
             ->setHtml("Add your own Javascript/Html code here. It will be appended to each page content");
-        $fs->addTextarea('body_finish_out', ['class' => 'am-el-wide am-row-wide', 'rows'=>12])
+        $fs->addTextarea('body_finish_out', ['class' => 'am-el-wide am-row-wide', 'rows' => 12])
             ->setLabel("Shown if User is NOT LOGGED IN");
         $gr = $fs->addGroup(null, ['class' => 'am-row-wide'])
             ->setLabel(___("Shown if User is LOGGED IN"));
-        $gr->addTextarea('body_finish_in', ['class' => 'am-el-wide', 'rows'=>12]);
+        $gr->addTextarea('body_finish_in', ['class' => 'am-el-wide', 'rows' => 12]);
         $gr->addHtml()->setHtml('<br/><br/>' . ___('You can use user specific placeholders here %user.*% eg.: %user.user_id%, %user.login%, %user.email% etc.'));
 
 
@@ -524,29 +526,38 @@ CUT
             ->setContent(<<<CUT
                 <div id="logo-settings">
 CUT
-                );
+            );
 
-        $form->addUpload('header_logo', ['class' => 'am-row-highlight'],
-            ['prefix' => 'theme-default'])
-                ->setLabel(___("Logo Image\n" .
-                    'keep it empty for default value'))->default = '';
+        $form->addUpload(
+            'header_logo',
+            ['class' => 'am-row-highlight'],
+            ['prefix' => 'theme-default']
+        )
+            ->setLabel(___("Logo Image\n" .
+                'keep it empty for default value'))->default = '';
 
-        $form->addAdvRadio('logo_align', ['class' => 'am-row-highlight'],
+        $form->addAdvRadio(
+            'logo_align',
+            ['class' => 'am-row-highlight'],
             [
                 'options' => [
                     'left' => ___('Left'),
                     'center' => ___('Center'),
                     'right' => ___('Right')
                 ]
-            ])->setLabel(___('Logo Position'));
+            ]
+        )->setLabel(___('Logo Position'));
 
-        $form->addAdvRadio('logo_width', ['class' => 'am-row-highlight'],
+        $form->addAdvRadio(
+            'logo_width',
+            ['class' => 'am-row-highlight'],
             [
                 'options' => [
                     'auto' => ___('As Is'),
                     '100%' => ___('Responsive')
                 ]
-            ])->setLabel(___('Logo Width'));
+            ]
+        )->setLabel(___('Logo Width'));
 
         $g = $form->addGroup(null, ['class' => 'am-row-highlight'])
             ->setLabel(___('Add hyperlink for Logo'));
@@ -583,9 +594,25 @@ CUT
         $gr->addText($name, $attr)
             ->addRule('regex', ___('Color should be in hex representation'), '/#[0-9a-f]{6}/i');
 
-        foreach (['#f1f5f9', '#dee7ec', '#ffebcd', '#ff8a80', '#ea80fc',
-            '#d1c4e9', '#e3f2fd', '#bbdefb', '#0079d1', '#b2dfdb', '#e6ee9c',
-            '#c8e6c9', '#4caf50', '#bcaaa4', '#212121', '#263238', '#2a333c'] as $color) {
+        foreach ([
+            '#f1f5f9',
+            '#dee7ec',
+            '#ffebcd',
+            '#ff8a80',
+            '#ea80fc',
+            '#d1c4e9',
+            '#e3f2fd',
+            '#bbdefb',
+            '#0079d1',
+            '#b2dfdb',
+            '#e6ee9c',
+            '#c8e6c9',
+            '#4caf50',
+            '#bcaaa4',
+            '#212121',
+            '#263238',
+            '#2a333c'
+        ] as $color) {
             $gr->addHtml()
                 ->setHtml("<div class='color-pick' style='background:{$color}' data-color='$color'></div>");
         }
@@ -672,16 +699,16 @@ CUT
 
             $view->placeholder('body-finish')->append($tmpl->render($_));
         }
-        if ($view->di->auth->getUser() && $this->getConfig('identity_type')!='login') {
+        if ($view->di->auth->getUser() && $this->getConfig('identity_type') != 'login') {
             $_ = json_encode($this->getConfig('identity_type') == 'full_name' ? $view->di->user->getName() : $view->di->user->email);
             $view->placeholder('body-finish')->append(<<<CUT
 <script type="text/javascript">
     jQuery(function(){jQuery('.am-user-identity-block_login, .am-login-text_login').text({$_})});
 </script>
 CUT
-);
+            );
         }
-     }
+    }
 
     function getFontOptions()
     {
@@ -776,16 +803,16 @@ CUT
     public function getDefaults()
     {
         return parent::getDefaults() + [
-            'bg' => '#f1f5f9',
-            'color' => '#f1f5f9',
-            'link_color'=> '#3f7fb0',
-            'btn_color' => '#4e80a6',
-            'text_color' => '#303030',
+            'bg' => '#0f0f1a',
+            'color' => '#0f0f1a',
+            'link_color' => '#06b6d4',
+            'btn_color' => '#7c3aed',
+            'text_color' => '#e4e4e7',
             'logo_align' => 'left',
-            'max_width' => 800,
+            'max_width' => 1200,
             'logo_width' => 'auto',
-            'font_size' => 14,
-            'font_family' => self::F_ROBOTO,
+            'font_size' => 15,
+            'font_family' => self::F_POPPINS,
             'version' => '',
             'login_layout' => 'layout.phtml',
             'login_bg' => 'none',
@@ -794,13 +821,13 @@ CUT
             'login_legend_padding_top' => '1em',
             'login_header_display' => 'none',
             'login_type' => '',
-            'menu_color' => '#eb6653',
+            'menu_color' => '#7c3aed',
             'menu_dashboard' => 'icon',
             'dashboard_layout' => 'two-col',
             'identity_align' => 'left',
             'identity_type' => 'login',
-            'sm_size' => '18',
-            'sm_color' => '#9f9f9f',
+            'sm_size' => '20',
+            'sm_color' => '#a1a1aa',
             'sm_icons' => [
                 'twitter' => 'twitter',
                 'instagram' => 'instagram',
@@ -841,15 +868,13 @@ TemplateForClass:html_quickform2
 CUT;
     }
 
-    public function beforeRenderElement(HTML_QuickForm2_Node &$element, & $elTpl)
+    public function beforeRenderElement(HTML_QuickForm2_Node &$element, &$elTpl)
     {
-        switch ($element->getType())
-        {
+        switch ($element->getType()) {
             case 'text':
             case 'password':
                 $attr = $element->getAttributes();
-                if (!isset($attr['placeholder']) && ($label = $this->getElementLabel($element, true)))
-                {
+                if (!isset($attr['placeholder']) && ($label = $this->getElementLabel($element, true))) {
                     $element->setAttribute('placeholder', $label);
                 }
                 break;
@@ -868,8 +893,7 @@ CUT;
     function getElementLabel(HTML_QuickForm2_Node $element, $onlyFirst)
     {
         $label = $element->getLabel();
-        if (!$label && $element->getContainer() && empty($element->getContainer()->_theme_label_used))
-        { // try to find label in parent
+        if (!$label && $element->getContainer() && empty($element->getContainer()->_theme_label_used)) { // try to find label in parent
             $label = $element->getContainer()->getLabel();
             $element->getContainer()->_theme_label_used = true;
         }
