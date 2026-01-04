@@ -16,6 +16,12 @@
 
 const AM_USE_NEW_CSS = 1;
 
+// Log that config.php is being loaded (for debugging)
+if (php_sapi_name() !== 'cli') {
+    file_put_contents('php://stderr', "[aMember Config] config.php loaded at " . date('Y-m-d H:i:s') . "\n");
+    error_log("[aMember Config] config.php loaded", 4);
+}
+
 // Parse database configuration from environment variables
 // Support both Railway's MYSQL_URL format and individual variables
 $dbHost = getenv('MYSQL_HOST') ?: 'mysql';

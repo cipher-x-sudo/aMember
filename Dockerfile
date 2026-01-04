@@ -59,7 +59,9 @@ RUN sed -i 's!/var/www/html!/var/www/html!g' /etc/apache2/sites-available/000-de
 # So: 32767 & ~8192 & ~2048 = 22527
 RUN echo "error_reporting = 22527" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "display_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
-    && echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/amember.ini
+    && echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "log_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "error_log = /proc/self/fd/2" >> /usr/local/etc/php/conf.d/amember.ini
 
 # Copy and set entrypoint
 COPY docker/docker-entrypoint.sh /usr/local/bin/
