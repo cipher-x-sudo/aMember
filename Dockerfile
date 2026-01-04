@@ -61,7 +61,13 @@ RUN echo "error_reporting = 22527" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "display_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "log_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
-    && echo "error_log = /proc/self/fd/2" >> /usr/local/etc/php/conf.d/amember.ini
+    && echo "error_log = /proc/self/fd/2" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "; Session configuration" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.cookie_path = /" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.cookie_secure = 1" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.cookie_httponly = 1" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.cookie_samesite = Lax" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.save_path = \"/tmp/php_sessions\"" >> /usr/local/etc/php/conf.d/amember.ini
 
 # Copy and set entrypoint
 COPY docker/docker-entrypoint.sh /usr/local/bin/
