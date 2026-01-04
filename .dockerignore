@@ -13,8 +13,9 @@ data/new-rewrite/*
 data/public/*
 !data/.htaccess
 
-# Configuration files (will be created during setup)
-application/configs/config.php
+# Configuration files
+# Note: config.php is included because it reads from environment variables
+# application/configs/config.php
 application/configs/key.php
 
 # Environment files
