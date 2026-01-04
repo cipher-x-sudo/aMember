@@ -56,8 +56,12 @@ RUN echo "error_reporting = 22527" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "display_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/amember.ini
 
+# Copy and set entrypoint
+COPY docker/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Expose port 80
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
 
