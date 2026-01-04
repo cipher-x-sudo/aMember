@@ -30,13 +30,8 @@ RUN curl -fSL 'https://downloads.ioncube.com/loader_downloads/ioncube_loaders_li
     && rm ioncube.tar.gz \
     && echo "zend_extension=/usr/local/ioncube/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00-ioncube.ini
 
-# Configure Apache - ensure only prefork MPM is loaded
-# Disable any other MPMs that might be enabled and ensure prefork is active
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
-    && a2enmod mpm_prefork rewrite \
-    && rm -f /etc/apache2/mods-enabled/mpm_*.load \
-    && ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load \
-    && ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf
+# Enable Apache mod_rewrite (MPM prefork is already configured in base image)
+RUN a2enmod rewrite
 
 # Set working directory
 WORKDIR /var/www/html
