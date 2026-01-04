@@ -5,7 +5,7 @@
 class Am_Protect_Htpasswd extends Am_Protect_Abstract
 {
     const PLUGIN_STATUS = self::STATUS_PRODUCTION;
-    const PLUGIN_REVISION = '6.3.5';
+    const PLUGIN_REVISION = '6.3.31';
 
     const NO_PASSWORD = '*NOPASSWORD*';
 
@@ -28,7 +28,7 @@ class Am_Protect_Htpasswd extends Am_Protect_Abstract
              WHERE u.status = 1
         ", self::NO_PASSWORD, SavedPassTable::PASSWORD_CRYPT);
 
-        $existing = array();
+        $existing = [];
         $f = fopen($this->htpasswd, 'r');
         if ($f) {
             while ($s = fgets($f, 8192))
@@ -56,7 +56,7 @@ class Am_Protect_Htpasswd extends Am_Protect_Abstract
             throw new Am_Exception_InternalError("Could not move $fnName to $this->htpasswd");
 
         /// rebuild .htaccess
-        $groups = array();
+        $groups = [];
         $q = $this->getDi()->resourceAccessTable->getResourcesForMembers(ResourceAccess::FOLDER)->query();
         $db = $this->getDi()->db;
         while ($r = $db->fetchRow($q))
@@ -177,12 +177,12 @@ class Am_Protect_Htpasswd extends Am_Protect_Abstract
                 }
                 $folder_id = intval($matches[1]);
                 $records = preg_split('/\s+/', trim(substr($s, $colon+1)));
-                $records = array_diff($records, array($oldLogin));
+                $records = array_diff($records, [$oldLogin]);
                 if (in_array($folder_id, $folders)) {
                     $records[] = $newLogin;
                 }
                 fwrite($fNew, "FOLDER_$folder_id: " . implode(" ", $records).PHP_EOL);
-                $folders = array_diff($folders, array($folder_id));
+                $folders = array_diff($folders, [$folder_id]);
             }
             foreach ($folders as $folder_id)
             {
@@ -210,15 +210,15 @@ class Am_Protect_Htpasswd extends Am_Protect_Abstract
     /** override automatic detection */
     public function getHooks()
     {
-        $updated = array($this, 'updated');
-        $deleted = array($this, 'deleted');
-        $rebuild = array($this, 'onRebuild');
-        return array(
+        $updated = [$this, 'updated'];
+        $deleted = [$this, 'deleted'];
+        $rebuild = [$this, 'onRebuild'];
+        return [
             'userAfterUpdate' => $updated,
             'subscriptionChanged' => $updated,
             'userAfterDelete' => $deleted,
             'daily' => $rebuild,
             'rebuild' => $rebuild,
-        );
+        ];
     }
 }

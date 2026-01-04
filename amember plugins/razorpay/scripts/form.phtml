@@ -1,0 +1,21 @@
+<?php
+$title = ___("Processing your Transaction");
+$this->setLayout('layout.phtml');
+?>
+<br />
+<?php include $this->_script('_receipt.phtml'); ?>
+<br />
+<br />
+<form action="<?php echo $url; ?>" method="POST">
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        <?php
+        foreach ($vars as $k => $v)
+        {
+            printf(" data-%s='%s' ", $k, $this->escape($v));
+        }
+        ?>
+        >
+    </script>
+    <input type='hidden' name='id' value='<?php echo $id; ?>'>
+</form>

@@ -46,7 +46,7 @@ class Am_Plugin_ThanksRedirect extends Am_Plugin
         if ($e->getController()->getRequest()->getParam('skip_thanks_redirect')) return;
 
         /** @var Invoice $invoice */
-        if(!$invoice = $e->getInvoice()) return;
+        if((!$invoice = $e->getInvoice()) || (empty($invoice->tm_started))) return;
 
         $url = $this->getConfig('url');
         foreach ($invoice->getProducts() as $pr) {

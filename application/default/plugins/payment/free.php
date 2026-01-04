@@ -8,7 +8,7 @@
 class Am_Paysystem_Free extends Am_Paysystem_Abstract
 {
     const PLUGIN_STATUS = self::STATUS_PRODUCTION;
-    const PLUGIN_REVISION = '6.3.5';
+    const PLUGIN_REVISION = '6.3.17';
 
     protected $defaultTitle = "Free Signup";
     protected $defaultDescription = "Totally free";
@@ -16,7 +16,7 @@ class Am_Paysystem_Free extends Am_Paysystem_Abstract
     function isNotAcceptableForInvoice(Invoice $invoice)
     {
         if (!$invoice->isZero())
-            return array(___('Cannot use FREE payment plugin with a product which cost more than 0.0'));
+            return [___('Cannot use FREE payment plugin with a product which cost more than 0.0')];
     }
 
     function _process($invoice, $request, $result)

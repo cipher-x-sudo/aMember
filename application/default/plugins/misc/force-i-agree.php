@@ -10,7 +10,7 @@ class Am_Plugin_ForceIAgree extends Am_Plugin
 {
     const PLUGIN_STATUS = self::STATUS_PRODUCTION;
     const PLUGIN_COMM = self::COMM_FREE;
-    const PLUGIN_REVISION = '6.3.5';
+    const PLUGIN_REVISION = '6.3.11';
 
     protected $_configPrefix = 'misc.';
 

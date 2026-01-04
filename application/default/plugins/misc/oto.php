@@ -9,13 +9,14 @@
 class Am_Plugin_Oto extends Am_Plugin
 {
     const PLUGIN_STATUS = self::STATUS_PRODUCTION;
-    const PLUGIN_REVISION = '6.3.5';
+    const PLUGIN_REVISION = '6.3.23';
 
     const NEED_SHOW_OTO = 'need_show_oto';
     const LAST_OTO_SHOWN = 'last_oto_shown';
     const LAST_OTO_YES = 'last_oto_yes';
 
     const ADMIN_PERM_ID = 'oto';
+    const EVENT_OTO_GET_VIEW = 'otoGetView';
 
     static function getDbXml()
     {
@@ -70,12 +71,12 @@ CUT;
      * show oto on first login after purchase instead of
      * thank you page
      *
-     * @param Am_Event $event
+     * @param Am_Event $e
      */
-    public function onInvoiceStarted(Am_Event $event)
+    public function onInvoiceStarted(Am_Event $e)
     {
         /* @var $invoice Invoice */
-        $invoice = $event->getInvoice();
+        $invoice = $e->getInvoice();
         if ($invoice->paysys_id == 'offline') {
             $oto = $this->getDi()->otoTable->findUpsell($invoice->getProducts(), $invoice);
             if ($oto) {
@@ -85,12 +86,12 @@ CUT;
         }
     }
 
-    function _onThanksPage(Am_Event $event)
+    function _onThanksPage(Am_Event $e)
     {
         /* @var $invoice Invoice */
-        $invoice = $event->getInvoice();
+        $invoice = $e->getInvoice();
         /* @var $controller ThanksController */
-        $controller = $event->getController();
+        $controller = $e->getController();
         if (!$invoice || !$invoice->tm_started)
             return; // invoice is not yet paid
 
@@ -108,13 +109,14 @@ CUT;
         if (!$oto) {
             return;
         }
+        $oto->setInvoice($invoice);
         if ($controller->getRequest()->get('oto') == 'yes') {
-            $event->stop();
+            $e->stop();
             return $this->yesOto($controller, $invoice, $this->getDi()->otoTable->load($invoice->data()->get(self::LAST_OTO_SHOWN)));
         }
 
         if ($oto->pk() == $invoice->data()->get(self::LAST_OTO_SHOWN)) return;
-        $event->stop();
+        $e->stop();
 
         $invoice->data()->set(self::LAST_OTO_SHOWN, $oto->pk())->update();
         $html = $oto->render();
@@ -147,7 +149,7 @@ CUT;
 
         if (!$oto) {
             $user->data()->set(self::NEED_SHOW_OTO, null)->update();
-            return $response->redirectLocation($this->getDi()->url('',null,false));
+            return $response->redirectLocation($this->getDi()->url('', false));
         }
 
         if ($controller->getRequest()->get('oto') == 'yes') {
@@ -157,7 +159,7 @@ CUT;
 
         if ($oto->pk() == $invoice->data()->get(self::LAST_OTO_SHOWN)) {
             $user->data()->set(self::NEED_SHOW_OTO, null)->update();
-            return $response->redirectLocation($this->getDi()->url('',null,false));
+            return $response->redirectLocation($this->getDi()->url('', false));
         }
 
         $invoice->data()->set(self::LAST_OTO_SHOWN, $oto->pk())->update();
@@ -200,17 +202,18 @@ CUT;
         $inv->insert();
 
         $payProcess = new Am_Paysystem_PayProcessMediator($controller, $inv);
-        $result = $payProcess->process(); // we decided to ignore failures here...
+        $payProcess->process(); // we decided to ignore failures here...
     }
 
     function renderParentInvoices(Am_View $view)
     {
         $invoice = $view->invoice;
-        if(!$invoice) return;
+        if (!$invoice) return;
         $out = null;
         while ($parent_invoice_id = $invoice->data()->get('oto_parent')) {
             $invoice = $this->getDi()->invoiceTable->load($parent_invoice_id);
             $v = $view->di->view;
+            $v->receiptAfterPayment = true;
             $v->invoice = $invoice;
             $out .= "<br /><h2>Related Order Reference: $invoice->public_id</h2>";
             $out .= $v->render('_receipt.phtml');
@@ -218,9 +221,59 @@ CUT;
         echo $out;
     }
 
-    function onGetPermissionsList(Am_Event $event)
+    function onGetPermissionsList(Am_Event $e)
     {
-        $event->addReturn(___('Can Operate with OTO'), self::ADMIN_PERM_ID);
+        $e->addReturn(___('Can Operate with OTO'), self::ADMIN_PERM_ID);
+    }
+}
+
+class Am_Grid_Action_OtoPreview extends Am_Grid_Action_Abstract
+{
+    public function run()
+    {
+        $f = $this->createForm();
+        $f->setDataSources([$this->grid->getCompleteRequest()]);
+        echo $this->renderTitle();
+        if ($f->isSubmitted() && $f->validate() && $this->process($f))
+            return;
+        echo $f;
+    }
+
+    function process(Am_Form $f)
+    {
+        $vars = $f->getValue();
+        $user = $this->grid->getDi()->userTable->findFirstByLogin($vars['user']);
+        if (!$user) {
+            [$el] = $f->getElementsByName('user');
+            $el->setError(___('User %s not found', $vars['user']));
+            return false;
+        }
+
+        Am_Mvc_Response::redirectLocation($this->grid->getDi()->surl('admin-one-time-offer/preview', ['id' => $this->grid->getRecord()->pk(), 'user_id' => $user->pk()], false));
+    }
+
+    protected function createForm()
+    {
+        $f = new Am_Form_Admin;
+        $f->addText('user')->setLabel(___('Enter username of existing user'))
+            ->addRule('required');
+        $f->addScript()->setScript(<<<CUT
+jQuery(function(){
+    jQuery("#user-0" ).autocomplete({
+        minLength: 2,
+        source: amUrl("/admin-users/autocomplete")
+    });
+});
+CUT
+        );
+
+        $f->addSaveButton(___('Preview'));
+        foreach ($this->grid->getVariablesList() as $k) {
+            $kk = $this->grid->getId() . '_' . $k;
+            if ($v = @$_REQUEST[$kk])
+                $f->addHidden($kk)->setValue($v);
+        }
+        return $f;
     }
 }
 
@@ -247,7 +300,19 @@ class AdminOneTimeOfferController extends Am_Mvc_Controller_Grid
         $id = $this->_request->getInt('id');
         if (!$id)
             throw new Am_Exception_InputError("Empty id passed");
+        $user_id = $this->_request->getInt('user_id');
+        if (!$user_id)
+            throw new Am_Exception_InputError("Empty user_id passed");
+
+        $user = $this->getDi()->userTable->load($user_id);
+
+        $invoice = Am_Di::getInstance()->invoiceRecord;
+        $invoice->toggleFrozen(true);
+        $invoice->setUser($user);
+
         $oto = $this->getDi()->otoTable->load($id);
+        $oto->setInvoice($invoice);
+
         echo $oto->render();
     }
 
@@ -256,6 +321,7 @@ class AdminOneTimeOfferController extends Am_Mvc_Controller_Grid
         $ds = new Am_Query($this->getDi()->otoTable);
         $grid = new Am_Grid_Editable('_oto', ___('One Time Offer'), $ds, $this->_request, $this->view, $this->getDi());
         $grid->setPermissionId(Am_Plugin_Oto::ADMIN_PERM_ID);
+        $grid->setEventId('gridOto');
         $grid->addField('comment', ___('Comment'));
         $grid->addField(new Am_Grid_Field_IsDisabled());
         $grid->setForm([$this, 'createForm']);
@@ -267,7 +333,7 @@ class AdminOneTimeOfferController extends Am_Mvc_Controller_Grid
         $grid->addCallback(Am_Grid_Editable::CB_VALUES_TO_FORM, [$this, 'valuesToForm']);
         $grid->addCallback(Am_Grid_Editable::CB_VALUES_FROM_FORM, [$this, 'valuesFromForm']);
 
-        $grid->actionAdd(new Am_Grid_Action_Url('preview', ___('Preview'), '__ROOT__/admin-one-time-offer/preview?id=__ID__'))->setTarget('_blank');
+        $grid->actionAdd(new Am_Grid_Action_OtoPreview('preview', ___('Preview')))->setTarget('_top');
         $grid->actionAdd(new Am_Grid_Action_CopyOto())->setTarget('_top');
         $grid->actionAdd(new Am_Grid_Action_Group_Callback('disable', ___('Disable'), [$this, 'disableOto']));
         $grid->actionAdd(new Am_Grid_Action_Group_Callback('enable', ___('Enable'), [$this, 'enableOto']));
@@ -390,7 +456,24 @@ class AdminOneTimeOfferController extends Am_Mvc_Controller_Grid
 
         $fs->addText('view[title]', ['class' => 'am-el-wide'])->setLabel(___('Title'));
 
-        $fs->addHtmlEditor('view[html]')->setLabel("Offer Text\nuse %yes% and %no% to insert buttons");
+        $fs->addHtmlEditor('view[html]')->setLabel("Offer Text\nuse %yes% and %no% to insert buttons")
+            ->setMceOptions([
+                'placeholder_items' => [
+                    ['[Yes] button text', '%yes%'],
+                    ['[No] button code', '%no%'],
+                    ['User First Name', '%user.name_f%'],
+                    ['User Last Name', '%user.name_l%'],
+                    ['Username', '%user.login%'],
+                    ['E-Mail', '%user.email%'],
+                    ['User Internal ID#', '%user.user_id%'],
+                    ['User Street', '%user.street%'],
+                    ['User Street (Second Line)', '%user.street2%'],
+                    ['User City', '%user.city%'],
+                    ['User State', '%user.state%'],
+                    ['User ZIP', '%user.zip%'],
+                    ['User Country', '%user.country%'],
+                ]
+            ]);
         $fs->addHtmlEditor('view[yes][label]', null, ['showInPopup' => true])
             ->setLabel('[Yes] button text');
         $fs->addHtmlEditor('view[no][label]', null, ['showInPopup' => true])
@@ -422,7 +505,9 @@ class OtoTable extends Am_Table
             /* @var $oto Oto */
             if ($oto->matchProducts($products)) {
                 if ($oto->skip_if_exists &&
-                    in_array(intval($oto->bp_id), $invoice->getUser()->getActiveProductIds())) {
+                    ($bp = $this->getDi()->billingPlanTable->load($oto->bp_id, false)) &&
+                    ($product = $bp->getProduct()) &&
+                    in_array($product->pk(), $invoice->getUser()->getActiveProductIds())) {
 
                     continue;
                 }
@@ -442,7 +527,9 @@ class OtoTable extends Am_Table
             /* @var $oto Oto */
             if ($oto->matchOto($oto_id)) {
                 if ($oto->skip_if_exists &&
-                    in_array(intval($oto->bp_id), $invoice->getUser()->getActiveProductIds())) {
+                    ($bp = $this->getDi()->billingPlanTable->load($oto->bp_id, false)) &&
+                    ($product = $bp->getProduct()) &&
+                    in_array($product->pk(), $invoice->getUser()->getActiveProductIds())) {
 
                     continue;
                 }
@@ -469,6 +556,13 @@ class OtoTable extends Am_Table
  */
 class Oto extends Am_Record
 {
+    protected $_invoice;
+
+    function setInvoice(Invoice $invoice)
+    {
+        $this->_invoice = $invoice;
+    }
+
     function matchProducts(array $product_ids)
     {
         $cats = $this->getDi()->productCategoryTable->getCategoryProducts();
@@ -558,13 +652,16 @@ class Oto extends Am_Record
 
     function render()
     {
-        $view = $this->getView();
-        $html = $view['html'];
+        $view = $this->getDi()->hook->filter($this->getView(), Am_Plugin_Oto::EVENT_OTO_GET_VIEW, ['oto' => $this]);
 
         $id = $this->getDi()->security->obfuscate($this->pk());
 
-        $html = str_replace('%yes%', '<button name="yes" class="am-oto-button-yes" id="am-oto-button-yes-' . $id . '" onclick="window.location.href=window.location.href + (window.location.href.indexOf(\'?\') == -1 ? \'?\' : \'&\') + \'oto=yes\'">' . $view['yes']['label'] . '</button>', $html);
-        $html = str_replace('%no%', '<a href="javascript:" class="am-oto-button-no" id="am-oto-button-no-' . $id . '" onclick="window.location.href=window.location.href + (window.location.href.indexOf(\'?\') == -1 ? \'?\' : \'&\') + \'oto=no\'">' . $view['no']['label'] . '</a>', $html);
+        $t = new Am_SimpleTemplate();
+        $t->assignStdVars();
+        $t->assign('yes', '<button name="yes" class="am-oto-button-yes" id="am-oto-button-yes-' . $id . '" onclick="window.location.href=window.location.href + (window.location.href.indexOf(\'?\') == -1 ? \'?\' : \'&\') + \'oto=yes\'">' . $view['yes']['label'] . '</button>');
+        $t->assign('no', '<a href="javascript:" class="am-oto-button-no" id="am-oto-button-no-' . $id . '" onclick="window.location.href=window.location.href + (window.location.href.indexOf(\'?\') == -1 ? \'?\' : \'&\') + \'oto=no\'">' . $view['no']['label'] . '</a>');
+        $t->assign('user', $this->_invoice->getUser());
+        $html = $t->render($view['html']);
 
         if ($view['no_layout']) {
             $title = Am_Html::escape($view['title']);
@@ -623,7 +720,7 @@ class Am_Grid_Action_CopyOto extends Am_Grid_Action_Abstract
                 $this->grid->getId() . '_b' => $this->grid->getBackUrl()], Am_Mvc_Request::METHOD_POST);
 
         $request->setModuleName('default')
-            ->setControllerName('admin-one-time-offfer')
+            ->setControllerName('admin-one-time-offer')
             ->setActionName('index')
             ->setDispatched(true);
 

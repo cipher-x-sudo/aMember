@@ -15,7 +15,7 @@
 class Am_Protect_NewRewrite extends Am_Protect_Abstract
 {
     const PLUGIN_STATUS = self::STATUS_PRODUCTION;
-    const PLUGIN_REVISION = '6.3.5';
+    const PLUGIN_REVISION = '6.3.31';
     const NR_COOKIE = 'amember_nr';
 
     function getFilePath($cookie, $folder_id = null)
