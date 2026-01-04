@@ -1,0 +1,10 @@
+<?php if(array_key_exists('sendpass', $_GET)): ?>
+    <?php include $this->_script('_sendpass-form.phtml');?>
+<?php else: ?>
+    <?php echo $this->blocks('login/form/before') ?>
+    <?php echo $content ?>
+    <?php echo $this->blocks('login/form/after') ?>
+<?php endif;?>>
+<?php $this->_scriptReplaced('_login'); ?>
+<?php $this->_scriptVars('showRecaptcha', (bool)$showRecaptcha); ?>
+<?php $this->_scriptVars('recaptchaPublicKey', $di->recaptcha->getPublicKey()); ?>

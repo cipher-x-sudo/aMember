@@ -1,0 +1,9 @@
+<?php
+$this->headLink([
+   'rel' => 'canonical',
+   'href' => $this->surl('login', false),
+]);
+$title = ___('Please login');
+$this->layoutNoTitle = true;
+$this->setLayout('layout-login.phtml');
+echo $content; ?>

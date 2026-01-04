@@ -10,10 +10,20 @@
     <link rel="stylesheet" href="<?php p($this->_scriptCss("waves.min.css")); ?>">
     <link rel="stylesheet" href="<?php p($this->_scriptCss("sweetalert.css")); ?>">
     
-    
+    <style>
+        .radio.am-el-checked {
+          border: 2px solid #ff7052;
+       }
+    </style>
 </head>
-<body>
-<div id="single-wrapper">
+<body class="am-page-signup am-page-signup-default">
+<div class="row small-spacing">
+    <div class="col-12">
+        <div class="invoice-box">
+            <div class="inside">
+                <div class="title" style="text-align: center;font-size: 30px;"><strong>Toolssandesh.com</strong></div>
+                <div class="frm-title" style="text-align: center;padding: 15px 0px 40px 0px;">Register</div>
+
     <?php echo $content ?>
 </div>
 <script type="text/am-vars">{"script-replaced-_login":"1","showRecaptcha":false,"recaptchaPublicKey":null}</script>

@@ -16,6 +16,8 @@ services:
         condition: service_healthy
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html
+      - SESSION_COOKIE_DOMAIN=${SESSION_COOKIE_DOMAIN:-}
+      - SESSION_COOKIE_SECURE=${SESSION_COOKIE_SECURE:-0}
     networks:
       - amember-network
     restart: unless-stopped

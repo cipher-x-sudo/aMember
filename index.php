@@ -7,8 +7,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
     $_SERVER['REQUEST_SCHEME'] = 'https';
 }
 
-// Hardcode session cookie domain for Railway
-ini_set('session.cookie_domain', 'amember-production.up.railway.app');
 
 if (!defined('APPLICATION_CONFIG'))
     define('APPLICATION_CONFIG', dirname(__FILE__) . '/application/configs/config.php');

@@ -1,0 +1,73 @@
+<?php
+$body_class = "am-page-main";
+$this->blocks('member/main/**');
+$title = ___('Your Membership Information');
+$this->setLayout('member/layout.phtml');
+?>
+<?php echo $this->blocks('member/main/top') ?>
+<script type="text/javascript" >
+var clktime = 0;
+ document.addEventListener("contextmenu", function (e){
+  e.preventDefault();
+  clktime++;
+  if (clktime >= 3){
+    alert("Don't try to Rightclick ! We Will Ban Your Account!");
+  }
+});
+document.onkeydown = function (e) {
+  if (event.keyCode == 123){
+    return false;
+  }
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)){
+    return false;
+  }
+
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)){
+    return false;
+  }
+
+  if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)){
+    return false;
+  }
+
+  if (e.ctrlKey &&  e.keyCode == "U".charCodeAt(0)){
+    return false;
+  }
+}
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elementsWithClass = document.querySelectorAll('.am-block');
+        var elementWithId = document.getElementById('member-main-resources');
+        var elementsWithRowClass = document.querySelectorAll('.row');
+
+        function addTargetBlank(link) {
+            if (link && link.href) {
+                link.target = '_blank';
+            }
+        }
+
+        if (elementsWithClass) {
+            elementsWithClass.forEach(function (element) {
+                element.addEventListener('click', function(event) {
+                    addTargetBlank(event.target.closest('a'));
+                });
+            });
+        }
+
+        if (elementWithId) {
+            elementWithId.addEventListener('click', function(event) {
+                addTargetBlank(event.target.closest('a'));
+            });
+        }
+
+        if (elementsWithRowClass) {
+            elementsWithRowClass.forEach(function (element) {
+                element.addEventListener('click', function(event) {
+                    addTargetBlank(event.target.closest('a'));
+                });
+            });
+        }
+    });
+</script>

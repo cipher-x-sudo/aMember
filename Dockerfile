@@ -33,6 +33,11 @@ RUN curl -fSL 'https://downloads.ioncube.com/loader_downloads/ioncube_loaders_li
 # Enable Apache mod_rewrite (MPM prefork is already configured in base image)
 RUN a2enmod rewrite
 
+# Copy entrypoint script early to ensure it's available
+COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh || true
+
 # Set working directory
 WORKDIR /var/www/html
 
@@ -63,19 +68,16 @@ RUN echo "error_reporting = 22527" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "log_errors = On" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "error_log = /proc/self/fd/2" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "; Session configuration" >> /usr/local/etc/php/conf.d/amember.ini \
-    && echo "session.cookie_domain = amember-production.up.railway.app" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "session.cookie_path = /" >> /usr/local/etc/php/conf.d/amember.ini \
-    && echo "session.cookie_secure = 1" >> /usr/local/etc/php/conf.d/amember.ini \
+    && echo "session.cookie_secure = 0" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "session.cookie_httponly = 1" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "session.cookie_samesite = Lax" >> /usr/local/etc/php/conf.d/amember.ini \
     && echo "session.save_path = \"/tmp/php_sessions\"" >> /usr/local/etc/php/conf.d/amember.ini
 
-# Copy and set entrypoint
-COPY docker/docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 # Expose port 80
 EXPOSE 80
 
-CMD ["/usr/local/bin/docker-entrypoint.sh"]
+# Completely override the base image's entrypoint
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD []
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .dis_pimg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 1px solid grey;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .dis_pimg:hover {
+            transform: scale(1.05);
+        }
+        .dis_pimg img {
+            width: 100%;
+            height: 90px;
+        }
+        .search-container {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        #searchInput {
+            width: 60%;
+            padding: 6px;
+            border: 1px solid #000;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+        .resource-item {
+            display: block; /* Default state */
+        }
+        .resource-item.hidden {
+            display: none !important; /* Use !important to override Bootstrap classes */
+        }
+        @media (max-width: 576px) {
+            #searchInput {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <center><input type="text" id="searchInput" placeholder="Search Any Tool .. "></center>
+    </div>
+
+    <?php if ($resources): ?>
+        <div class="row" id="resourceContainer">
+        <?php foreach ($resources as $r): ?>
+            <?php if ($l = $r->getUrl()) : ?>
+                <?php
+                $pl = Am_Di::getInstance()->plugins_misc->loadGet('content-image', false);
+                $img_path = $r->img_path ?: $pl->getConfig('default_path');
+                ?>
+                <?php if ($img_path): ?>
+                    <?php
+                    $img = Am_Di::getInstance()->url("data/public/{$img_path}");
+                    ?>
+                    <div class="col-lg-3 col-md-4 mb-4 mt-2 resource-item">
+                        <div class="dis_pimg">
+                            <a href="<?php echo $l; ?>">
+                                <img src="<?php echo $img; ?>" alt="" class="w-100 p-2">
+                            </a>
+                            <a href="<?php echo $l; ?>" class="btn btn-primary d-block w-100">
+                                <strong><?php echo $r->title; ?></strong>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endforeach ?>
+        </div>
+    <?php endif ?>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const items = document.querySelectorAll('.resource-item');
+            
+            items.forEach(item => {
+                const title = item.querySelector('strong').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

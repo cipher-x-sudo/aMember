@@ -1,0 +1,6 @@
+.am-body-content button.copyButton {
+background-image: none !important;
+}
+.am-admin a.button, .am-admin button, .am-admin input[type="button"], .am-admin input[type="submit"], .am-body-content a.button, .am-body-content button, .am-body-content input[type="button"], .am-body-content input[type="submit"], .am-popup a.button, .am-popup button, .am-popup input[type="button"], .am-popup input[type="submit"] {
+background-image: none !important;
+}

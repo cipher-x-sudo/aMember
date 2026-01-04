@@ -1,0 +1,51 @@
+<form name="sendpass" method="post"
+      action="sendpass" class="frm-single" data-options="{&quot;show_recaptcha&quot;:false,&quot;recaptcha_key&quot;:null,&quot;recaptcha_theme&quot;:&quot;light&quot;,&quot;recaptcha_size&quot;:&quot;normal&quot;,&quot;recaptcha_hl&quot;:&quot;en_US&quot;}" data-cf-modified-779b166e0ffca2f76cbcb2e8-="">
+    <div class="inside">
+        <div class="title"><strong>Toolssandesh</strong></div>
+        <div class="frm-title">Reset Password</div>
+        <div id="msg"></div>
+        <p class="text-center">Enter either your email address or username and we will send you a link to reset your password.</p>
+        <div class="frm-input"><input type="text" name="login" id="sendpass" size="15" placeholder="Username/Email" class="frm-inp" autocomplete="username" /><i class="fa fa-envelope frm-ico"></i></div>
+        <div id="btn_update" class="btn btn-orange" style="width: 100%;margin-bottom: 15px;background-color: #f1541f;">Reset<i class="fa fa-arrow-circle-right"></i></div>
+        <a href="login" class="a-link"><i class="fa fa-sign-in"></i>Already have account? Login.</a>
+        <div class="frm-footer">&copy Toolssandesh - 2025</div>
+    </div>
+</form>
+<script type="text/javascript">
+$(document).on("click", "#btn_update", ajaxFunction);
+$(document).on("keypress", "#btn_update", function (e) {
+    if (e.keyCode == 13){
+        e.preventDefault();
+        ajaxFunction();
+    }
+});
+function ajaxFunction(){
+    var email = $("#sendpass").val();
+	if(email == ""){
+		alert("Please Enter Email Address");
+	}
+	else{
+	    $.ajax({
+            type:'POST',
+            url:'sendpass',
+            dataType: "html",
+            data: {
+                login:email,
+            },
+            success:function(data) {
+                if(data) {
+                    obj = JSON.parse(data);
+                    result = obj.error[0];
+                    if(obj.ok[0] == true){
+            			$('#msg').html("<div class=\"box-content card bordered-all success\"><h4 class=\"box-title bg-success\">" + result + "</h4>");
+            		}else {
+            		    $('#msg').html("<div class=\"box-content card bordered-all danger\"><h4 class=\"box-title bg-danger\">" + result + "</h4>");
+                    }
+                } else {
+                    $('#msg').html('<div class="box-content card bordered-all danger"><h4 class="box-title bg-danger">There are some internal issues, please contact us</h4>');
+                }
+            }
+        });
+	}
+};
+</script>
