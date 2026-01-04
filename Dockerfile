@@ -36,7 +36,7 @@ RUN a2enmod rewrite
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application files
+# Copy application files   
 COPY . /var/www/html/
 
 # Create writable directories and set permissions
@@ -44,6 +44,11 @@ RUN mkdir -p data/cache data/new-rewrite data/public \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 777 data/ data/cache data/new-rewrite data/public
+
+# Create session directory for PHP sessions
+RUN mkdir -p /tmp/php_sessions \
+    && chown -R www-data:www-data /tmp/php_sessions \
+    && chmod 777 /tmp/php_sessions
 
 # Configure Apache
 RUN sed -i 's!/var/www/html!/var/www/html!g' /etc/apache2/sites-available/000-default.conf \
