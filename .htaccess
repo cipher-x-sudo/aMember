@@ -9,7 +9,7 @@
 # You may need to uncomment the following line if rewrite fails to work
 # RewriteBase must be setup to base URL of your aMember installation without
 # domain name
-    RewriteBase /amember/done
+    RewriteBase /
     # Workaround for a bug introduced in Apache 2.4.18 (caused endless loop)
     RewriteCond %{ENV:REDIRECT_STATUS} 200
     RewriteRule .* - [L]

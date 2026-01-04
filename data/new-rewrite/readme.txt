@@ -1,1 +1,0 @@
-This folder is a storage for temporary files of "new_rewrite" plugin.

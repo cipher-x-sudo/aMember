@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Data and cache
+data/cache/*
+data/new-rewrite/*
+data/public/*
+!data/.htaccess
+
+# Configuration files (will be created during setup)
+application/configs/config.php
+application/configs/key.php
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/*
+temp/*
+
+# Uploads (if not needed in container)
+# data/upload/*
+

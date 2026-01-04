@@ -214,6 +214,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return Boolean true if the parameter name is defined, false otherwise
    */
+  #[\ReturnTypeWillChange]
   public function offsetExists($name)
   {
     return $this->hasParameter($name);
@@ -226,6 +227,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return mixed  The parameter value
    */
+  #[\ReturnTypeWillChange]
   public function offsetGet($name)
   {
     return $this->getParameter($name);
@@ -237,6 +239,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    * @param string The parameter name
    * @param mixed  The parameter value
    */
+  #[\ReturnTypeWillChange]
   public function offsetSet($name, $value)
   {
     $this->setParameter($name, $value);
@@ -247,6 +250,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @param string The parameter name
    */
+  #[\ReturnTypeWillChange]
   public function offsetUnset($name)
   {
     unset($this->parameters[$name]);
@@ -300,6 +304,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   /**
    * Resets the service identifiers array to the beginning (implements the Iterator interface).
    */
+  #[\ReturnTypeWillChange]
   public function rewind()
   {
     $this->serviceIds = $this->getServiceIds();
@@ -312,6 +317,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return string The service identifier
    */
+  #[\ReturnTypeWillChange]
   public function key()
   {
     return current($this->serviceIds);
@@ -322,6 +328,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return mixed The service
    */
+  #[\ReturnTypeWillChange]
   public function current()
   {
     return $this->getService(current($this->serviceIds));
@@ -330,6 +337,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   /**
    * Moves to the next service (implements the Iterator interface).
    */
+  #[\ReturnTypeWillChange]
   public function next()
   {
     next($this->serviceIds);
@@ -342,6 +350,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return boolean The validity of the current service; true if it is valid
    */
+  #[\ReturnTypeWillChange]
   public function valid()
   {
     return $this->count > 0;

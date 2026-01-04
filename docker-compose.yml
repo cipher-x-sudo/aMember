@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: amember-web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - ./:/var/www/html
+      - amember-data:/var/www/html/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    networks:
+      - amember-network
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: amember-mysql
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-amember}
+      MYSQL_USER: ${MYSQL_USER:-amember}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-amember}
+    volumes:
+      - amember-db:/var/lib/mysql
+      - ./docker/mysql-init.sql:/docker-entrypoint-initdb.d/01-grant-privileges.sql:ro
+    networks:
+      - amember-network
+    healthcheck:
+      test: ["CMD", "bash", "-c", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD:-rootpassword} --silent && mysql -u root -p${MYSQL_ROOT_PASSWORD:-rootpassword} -e \"GRANT SYSTEM_VARIABLES_ADMIN, SESSION_VARIABLES_ADMIN ON *.* TO '${MYSQL_USER:-amember}'@'%'; FLUSH PRIVILEGES;\" --silent 2>/dev/null || true"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  amember-db:
+    driver: local
+  amember-data:
+    driver: local
+
+networks:
+  amember-network:
+    driver: bridge
+
