@@ -6,6 +6,7 @@ if (!defined('APPLICATION_CONFIG'))
 // Debug: Check config file status (remove after debugging)
 if (isset($_GET['debug'])) {
     header('Content-Type: text/plain');
+    echo "=== CONFIG.PHP ===\n";
     echo "APPLICATION_CONFIG path: " . APPLICATION_CONFIG . "\n";
     echo "File exists: " . (file_exists(APPLICATION_CONFIG) ? 'YES' : 'NO') . "\n";
     echo "Is readable: " . (is_readable(APPLICATION_CONFIG) ? 'YES' : 'NO') . "\n";
@@ -16,6 +17,28 @@ if (isset($_GET['debug'])) {
         echo "\nFirst 500 chars of config.php:\n";
         echo substr(file_get_contents(APPLICATION_CONFIG), 0, 500);
     }
+    
+    echo "\n\n=== .USER.INI ===\n";
+    $userIniPath = dirname(__FILE__) . '/.user.ini';
+    echo ".user.ini path: " . $userIniPath . "\n";
+    echo "File exists: " . (file_exists($userIniPath) ? 'YES' : 'NO') . "\n";
+    if (file_exists($userIniPath)) {
+        echo "Contents:\n" . file_get_contents($userIniPath);
+    }
+    
+    echo "\n\n=== PHP SESSION SETTINGS ===\n";
+    echo "session.cookie_domain: " . ini_get('session.cookie_domain') . "\n";
+    echo "session.cookie_secure: " . ini_get('session.cookie_secure') . "\n";
+    echo "session.cookie_httponly: " . ini_get('session.cookie_httponly') . "\n";
+    echo "session.cookie_samesite: " . ini_get('session.cookie_samesite') . "\n";
+    echo "session.save_path: " . ini_get('session.save_path') . "\n";
+    
+    echo "\n\n=== ENVIRONMENT VARIABLES ===\n";
+    echo "MYSQL_URL set: " . (getenv('MYSQL_URL') ? 'YES' : 'NO') . "\n";
+    echo "DATABASE_URL set: " . (getenv('DATABASE_URL') ? 'YES' : 'NO') . "\n";
+    echo "_ENV MYSQL_URL: " . (isset($_ENV['MYSQL_URL']) ? 'YES' : 'NO') . "\n";
+    echo "_SERVER MYSQL_URL: " . (isset($_SERVER['MYSQL_URL']) ? 'YES' : 'NO') . "\n";
+    
     exit;
 }
 
