@@ -3,6 +3,22 @@
 if (!defined('APPLICATION_CONFIG'))
     define('APPLICATION_CONFIG', dirname(__FILE__) . '/application/configs/config.php');
 
+// Debug: Check config file status (remove after debugging)
+if (isset($_GET['debug'])) {
+    header('Content-Type: text/plain');
+    echo "APPLICATION_CONFIG path: " . APPLICATION_CONFIG . "\n";
+    echo "File exists: " . (file_exists(APPLICATION_CONFIG) ? 'YES' : 'NO') . "\n";
+    echo "Is readable: " . (is_readable(APPLICATION_CONFIG) ? 'YES' : 'NO') . "\n";
+    echo "dirname(__FILE__): " . dirname(__FILE__) . "\n";
+    echo "Real path: " . realpath(APPLICATION_CONFIG) . "\n";
+    if (file_exists(APPLICATION_CONFIG)) {
+        echo "File size: " . filesize(APPLICATION_CONFIG) . " bytes\n";
+        echo "\nFirst 500 chars of config.php:\n";
+        echo substr(file_get_contents(APPLICATION_CONFIG), 0, 500);
+    }
+    exit;
+}
+
 ### check if config.php was properly copied (for setup.php)
 if (isset($_GET['a']) && ($_GET['a'] == 'cce'))
 {
