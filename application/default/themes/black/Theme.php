@@ -803,11 +803,11 @@ CUT
     public function getDefaults()
     {
         return parent::getDefaults() + [
-            'bg' => '#0f0f1a',
-            'color' => '#0f0f1a',
-            'link_color' => '#06b6d4',
-            'btn_color' => '#7c3aed',
-            'text_color' => '#e4e4e7',
+            'bg' => '#0a0a0f',
+            'color' => '#0a0a0f',
+            'link_color' => '#f97316',
+            'btn_color' => '#ea580c',
+            'text_color' => '#f5f5f5',
             'logo_align' => 'left',
             'max_width' => 1200,
             'logo_width' => 'auto',
@@ -821,13 +821,13 @@ CUT
             'login_legend_padding_top' => '1em',
             'login_header_display' => 'none',
             'login_type' => '',
-            'menu_color' => '#7c3aed',
+            'menu_color' => '#ea580c',
             'menu_dashboard' => 'icon',
             'dashboard_layout' => 'two-col',
             'identity_align' => 'left',
             'identity_type' => 'login',
             'sm_size' => '20',
-            'sm_color' => '#a1a1aa',
+            'sm_color' => '#9ca3af',
             'sm_icons' => [
                 'twitter' => 'twitter',
                 'instagram' => 'instagram',
