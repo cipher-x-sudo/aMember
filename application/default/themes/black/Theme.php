@@ -23,7 +23,9 @@ class Am_Theme_Black extends Am_Theme_Default
 
     public function initSetupForm(Am_Form_Setup_Theme $form)
     {
+        // Modern fonts including Inter
         $this->getDi()->view->headLink()
+            ->appendStylesheet('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap')
             ->appendStylesheet('https://fonts.googleapis.com/css?family=Roboto:400,700')
             ->appendStylesheet('https://fonts.googleapis.com/css?family=Poppins:300,700')
             ->appendStylesheet('https://fonts.googleapis.com/css?family=Oxygen:400,700')
@@ -620,6 +622,39 @@ CUT
 
     function printLayoutHead(Am_View $view)
     {
+        // Add Inter font (modern default)
+        $view->headLink()->appendStylesheet('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        // Add Tailwind CSS config before CDN
+        $fontFamily = $this->getConfig('font_family', self::F_POPPINS);
+        $view->headScript()->prependScript(<<<CUT
+tailwind.config = {
+    darkMode: 'class',
+    theme: {
+        extend: {
+            colors: {
+                primary: '#f97316',
+                'primary-dark': '#ea580c',
+                'primary-light': '#fb923c',
+                dark: {
+                    DEFAULT: '#0a0a0f',
+                    '100': '#0a0a0f',
+                    '200': '#111118',
+                    '300': '#15151d',
+                },
+                surface: '#111118',
+            },
+            fontFamily: {
+                sans: ['Inter', '{$fontFamily}', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            },
+        }
+    }
+}
+CUT
+        );
+        // Add Tailwind CSS CDN
+        $view->headScript()->prependFile('https://cdn.tailwindcss.com');
+        
         if ($this->getConfig('font_family') == self::F_ROBOTO) {
             $view->headLink()->appendStylesheet('https://fonts.googleapis.com/css?family=Roboto:400,700');
         }

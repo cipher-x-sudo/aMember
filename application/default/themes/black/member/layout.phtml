@@ -10,7 +10,7 @@ $di = Am_Di::getInstance();
 $user = $di->auth->getUser();
 ?>
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="en" class="dark">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -30,22 +30,7 @@ $user = $di->auth->getUser();
     <link href="<?php p($this->_scriptCss("jquery-jvectormap-2.0.2.css")); ?>" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?php p($this->_scriptCss("style.member.min.css")); ?>" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#f97316',
-                        accent: '#ea580c',
-                        dark: '#0a0a0f',
-                        surface: '#111118'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Tailwind CSS CDN - Config loaded via Theme.php -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]
@@ -59,7 +44,7 @@ $user = $di->auth->getUser();
     <!-- END Pixel Code -->
 </head>
 
-<body>
+<body class="bg-dark-100 text-white">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -77,7 +62,7 @@ $user = $di->auth->getUser();
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <header class="topbar" data-navbarbg="skin6">
+        <header class="topbar bg-dark-200/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
@@ -90,8 +75,8 @@ $user = $di->auth->getUser();
                         <!-- Modern Text Logo -->
                         <a href="<?php echo $di->url('member'); ?>" class="flex items-center gap-2 no-underline">
                             <span
-                                class="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">
-                                Dashboard
+                                class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+                                <?php echo $di->config->get('site_title', 'Dashboard'); ?>
                             </span>
                         </a>
                     </div>
@@ -146,12 +131,12 @@ $user = $di->auth->getUser();
 
 
 
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark"><?php echo $user->login; ?></span> <i
-                                        data-feather="chevron-down" class="svg-icon"></i></span>
+                                <span class="ml-2 d-none d-lg-inline-block"><span class="text-gray-400">Hello,</span> <span
+                                        class="text-white font-medium"><?php echo $user->login; ?></span> <i
+                                        data-feather="chevron-down" class="svg-icon ml-1"></i></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="<?php echo $di->url("profile"); ?>"><i
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY bg-dark-200 border border-white/10 rounded-lg shadow-xl">
+                                <a class="dropdown-item text-white hover:bg-primary/20 hover:text-primary transition-colors" href="<?php echo $di->url("profile"); ?>"><i
                                         data-feather="user" class="svg-icon mr-2 ml-1"></i>
                                     My Profile</a>
                                 <!--
@@ -171,10 +156,10 @@ $user = $di->auth->getUser();
                                 -->
 
 
-                                <a class="dropdown-item" href="<?php echo $di->url("logout"); ?>"><i
+                                <a class="dropdown-item text-white hover:bg-primary/20 hover:text-primary transition-colors" href="<?php echo $di->url("logout"); ?>"><i
                                         data-feather="power" class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider border-white/10"></div>
                             </div>
                         </li>
                         <!-- ============================================================== -->
@@ -191,73 +176,75 @@ $user = $di->auth->getUser();
 
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin6">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar" data-sidebarbg="skin6">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="<?php echo $di->url("member"); ?>" aria-expanded="false"><i data-feather="home"
-                                    class="feather-icon"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li class="list-divider"></li>
-
-                        <!--      <li class="nav-small-cap"><span class="hide-menu">Profile</span></li> -->
-                        <!--
-                    <li class="sidebar-item"> <a class="sidebar-link" href="<?php echo $di->url("profile"); ?>"
-                                                 aria-expanded="false"><i class="fas fa-user"></i><span
-                                    class="hide-menu">Profile
-                                </span></a>
-                    </li>
-                    
-                    -->
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="<?php echo $di->url("member/payment-history"); ?>" aria-expanded="false"><i
-                                    class="fab fa-cc-visa"></i><span class="hide-menu">Transaction History</span></a>
+        <aside class="left-sidebar bg-dark-200 border-r border-white/10">
+            <div class="scroll-sidebar">
+                <nav class="sidebar-nav p-4">
+                    <ul id="sidebarnav" class="space-y-1">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200 <?php echo (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'member' && Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'index') ? 'bg-primary/20 text-primary border-l-4 border-primary' : ''; ?>"
+                                href="<?php echo $di->url("member"); ?>" aria-expanded="false">
+                                <i data-feather="home" class="feather-icon w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Dashboard</span>
+                            </a>
                         </li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/order-renew"
-                                aria-expanded="false"><i class="fas fa-cart-plus"></i><span
-                                    class="hide-menu">Subscribe/Renew</span></a></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/profile"
-                                aria-expanded="false"><i class="fa fa-user-circle"></i><span class="hide-menu">Account
-                                    Settings</span></a></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/helpdesk"
-                                aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Help
-                                    Desk</span></a></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/faq"
-                                aria-expanded="false"><i class="fas fa-question"></i><span
-                                    class="hide-menu">FAQs</span></a></li>
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">USER GUIDE</span></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/page/Extention"
-                                aria-expanded="false"><i class="fas fa-download"></i><span class="hide-menu"> Download
-                                    Extension</span></a></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="https://app.Toolssandesh.com/member/logout" aria-expanded="false"><i
-                                    class="fas fa-sign-out-alt"></i><span class="hide-menu">Logout</span></a></li>
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu"></span></li>
-
-
-                        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="https://t.me/seo_group_buy" target="_blank"
-                                                 aria-expanded="false"><i class="fab fa-telegram"></i><span
-                                    class="hide-menu">Join Us on Telegram</span></a></li> -->
-
-                        <!--<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="https://t.me/Zerohitss" target="_blank"-->
-                        <!--                             aria-expanded="false"><img src="https://toolzbuy.com/images/Invideo-banner.png" width="200" height="200"></a></li>-->
-
-
+                        <li class="list-divider border-white/10 my-2"></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="<?php echo $di->url("member/payment-history"); ?>" aria-expanded="false">
+                                <i class="fab fa-cc-visa w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Transaction History</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="/page/order-renew" aria-expanded="false">
+                                <i class="fas fa-cart-plus w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Subscribe/Renew</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="/profile" aria-expanded="false">
+                                <i class="fa fa-user-circle w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Account Settings</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="/helpdesk" aria-expanded="false">
+                                <i class="fas fa-ticket-alt w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Help Desk</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="/page/faq" aria-expanded="false">
+                                <i class="fas fa-question w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">FAQs</span>
+                            </a>
+                        </li>
+                        <li class="list-divider border-white/10 my-2"></li>
+                        <li class="nav-small-cap px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <span class="hide-menu">USER GUIDE</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-primary/20 rounded-lg transition-all duration-200"
+                                href="/page/Extention" aria-expanded="false">
+                                <i class="fas fa-download w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Download Extension</span>
+                            </a>
+                        </li>
+                        <li class="list-divider border-white/10 my-2"></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link flex items-center px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-200"
+                                href="<?php echo $di->url("logout"); ?>" aria-expanded="false">
+                                <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
+                                <span class="hide-menu font-medium">Logout</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
-                <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll-->
         </aside>
         <!-- end Left Sidebar - style you can find in sidebar.scss  -->
         ?>
@@ -272,23 +259,18 @@ $user = $di->auth->getUser();
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-7 align-self-center">
-                        <!--   <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Welcome <?php echo $user->login; ?>🎉</h3>
-                 -->
-
-                        <h2>👋 hey, <?php echo $user->login; ?> </h2>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item">
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
+            <div class="page-breadcrumb bg-dark-200/50 border-b border-white/10 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-1">
+                            👋 Hey, <span class="text-primary"><?php echo $user->login; ?></span>
+                        </h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb m-0 p-0 flex items-center space-x-2 text-sm text-gray-400">
+                                <li class="breadcrumb-item"></li>
+                            </ol>
+                        </nav>
                     </div>
-
                 </div>
             </div>
 
@@ -306,46 +288,47 @@ $user = $di->auth->getUser();
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start First Cards -->
-                <!-- *************************************************************** -->
+            <div class="container-fluid bg-dark-100 min-h-screen p-6">
                 <?php if (
                     (Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'member' &&
                         (Zend_Controller_Front::getInstance()->getRequest()->getActionName() == 'index'))
                 ): ?>
-                    <?php echo $this->blocks('member/main/left/top') ?>
-                    <?php echo $this->blocks(
-                        'member/main/left',
-                        '<div class="am-widget" id="widget-%3$s"><h2 id="%3$s-head">%2$s</h2><div class="am-block" id="%3$s"><div style=" border-radius: 20px; " class="alert alert-success" role="alert">%1$s</div></div></div>'
-                    ); ?>
-                    <?php echo $this->blocks('member/main/left/bottom') ?>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="lg:col-span-1">
+                            <?php echo $this->blocks('member/main/left/top') ?>
+                            <?php echo $this->blocks(
+                                'member/main/left',
+                                '<div class="am-widget bg-dark-200/50 backdrop-blur-xl border border-white/10 rounded-xl p-6 mb-6 shadow-lg" id="widget-%3$s"><h2 id="%3$s-head" class="text-xl font-semibold text-white mb-4">%2$s</h2><div class="am-block" id="%3$s"><div class="bg-green-500/20 border border-green-500/50 text-green-300 rounded-xl p-4" role="alert">%1$s</div></div></div>'
+                            ); ?>
+                            <?php echo $this->blocks('member/main/left/bottom') ?>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <div class="am-body-content">
+                                <div class="am-body-content-content">
+                                    <?php echo $content ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="am-body-content">
+                        <div class="am-body-content-content">
+                            <?php echo $content ?>
+                        </div>
+                    </div>
                 <?php endif; ?>
-                <div class="am-body-content">
-                    <div class="am-body-content-top">
-
-
-                    </div>
-                    <div class="am-body-content-content">
-                        <!-- content starts here -->
-                        <?php echo $content ?>
-                    </div>
-                </div>
                 <div id="am-flash" class="am-flash">
                     <div class="am-flash-mask"></div>
                     <div class="am-flash-content"></div>
-                </div><br><br>
-                <!-- *************************************************************** -->
-                <!-- End Top Affilate  marketers -->
-                <!-- *************************************************************** -->
+                </div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center py-4">
-                <p class="text-gray-500 text-sm">&copy; <?php echo date('Y'); ?> All rights reserved.</p>
+            <footer class="footer text-center py-4 bg-dark-200/50 border-t border-white/10">
+                <p class="text-gray-400 text-sm">&copy; <?php echo date('Y'); ?> <?php echo $di->config->get('site_title', 'NoxTools'); ?>. All rights reserved.</p>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
