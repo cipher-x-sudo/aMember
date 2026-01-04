@@ -26,7 +26,8 @@ $dbPass = getenv('MYSQL_PASSWORD') ?: 'amember';
 
 // If MYSQL_URL is provided (Railway format: mysql://user:pass@host:port/dbname), parse it
 if (($mysqlUrl = getenv('MYSQL_URL')) || ($mysqlUrl = getenv('DATABASE_URL'))) {
-    error_log("[aMember Config] Found MYSQL_URL/DATABASE_URL environment variable");
+    fwrite(STDERR, "[aMember Config] Found MYSQL_URL/DATABASE_URL environment variable\n");
+    error_log("[aMember Config] Found MYSQL_URL/DATABASE_URL environment variable", 4); // 4 = send to stderr
     $parsed = parse_url($mysqlUrl);
     if ($parsed) {
         $dbHost = isset($parsed['host']) ? $parsed['host'] : $dbHost;
@@ -34,13 +35,16 @@ if (($mysqlUrl = getenv('MYSQL_URL')) || ($mysqlUrl = getenv('DATABASE_URL'))) {
         $dbName = isset($parsed['path']) ? ltrim($parsed['path'], '/') : $dbName;
         $dbUser = isset($parsed['user']) ? $parsed['user'] : $dbUser;
         $dbPass = isset($parsed['pass']) ? $parsed['pass'] : $dbPass;
-        error_log("[aMember Config] Parsed DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser");
+        fwrite(STDERR, "[aMember Config] Parsed DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser\n");
+        error_log("[aMember Config] Parsed DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser", 4);
     } else {
-        error_log("[aMember Config] Warning: Failed to parse MYSQL_URL");
+        fwrite(STDERR, "[aMember Config] Warning: Failed to parse MYSQL_URL\n");
+        error_log("[aMember Config] Warning: Failed to parse MYSQL_URL", 4);
     }
 } else {
-    error_log("[aMember Config] Using individual environment variables or defaults");
-    error_log("[aMember Config] DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser");
+    fwrite(STDERR, "[aMember Config] Using individual environment variables or defaults\n");
+    fwrite(STDERR, "[aMember Config] DB config - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser\n");
+    error_log("[aMember Config] Using individual environment variables or defaults - Host: $dbHost, Port: $dbPort, DB: $dbName, User: $dbUser", 4);
 }
 
 return [
