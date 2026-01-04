@@ -68,6 +68,13 @@ if (isset($_GET['debug'])) {
     echo "Session status after start: " . session_status() . " (0=disabled, 1=none, 2=active)\n";
     echo "Session ID: " . session_id() . "\n";
     
+    // Show response headers that will be sent
+    echo "\n=== RESPONSE HEADERS ===\n";
+    $headers = headers_list();
+    foreach ($headers as $h) {
+        echo $h . "\n";
+    }
+    
     // Check for any session errors
     $lastError = error_get_last();
     if ($lastError) {
@@ -77,6 +84,11 @@ if (isset($_GET['debug'])) {
     if (session_status() === PHP_SESSION_ACTIVE) {
         $_SESSION['test'] = 'debug_test_' . time();
         echo "Session test value set: " . $_SESSION['test'] . "\n";
+        
+        // Check session file
+        $sessionFile = $sessionPath . '/sess_' . session_id();
+        echo "Session file path: " . $sessionFile . "\n";
+        echo "Session file exists: " . (file_exists($sessionFile) ? 'YES' : 'NO') . "\n";
     } else {
         echo "Session NOT active - cannot set test value\n";
     }
