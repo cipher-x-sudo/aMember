@@ -5,9 +5,23 @@ set -e
 a2dismod mpm_event mpm_worker 2>/dev/null || true
 a2enmod mpm_prefork 2>/dev/null || true
 
-# Debug: Log environment variables (for troubleshooting on Railway)
+# Debug: Log all SESSION_* environment variables (for troubleshooting on Railway)
+echo "[Entrypoint] === Environment Variables Debug ===" >&2
+env | grep -i session || echo "[Entrypoint] No SESSION_* variables found" >&2
 echo "[Entrypoint] SESSION_COOKIE_DOMAIN=${SESSION_COOKIE_DOMAIN:-NOT SET}" >&2
 echo "[Entrypoint] SESSION_COOKIE_SECURE=${SESSION_COOKIE_SECURE:-NOT SET}" >&2
+
+# Strip quotes from environment variables if present (Railway sometimes includes them)
+if [ -n "$SESSION_COOKIE_DOMAIN" ] && [ "$SESSION_COOKIE_DOMAIN" != "NOT SET" ]; then
+    SESSION_COOKIE_DOMAIN=$(echo "$SESSION_COOKIE_DOMAIN" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+    echo "[Entrypoint] SESSION_COOKIE_DOMAIN (after strip)=${SESSION_COOKIE_DOMAIN}" >&2
+fi
+
+if [ -n "$SESSION_COOKIE_SECURE" ] && [ "$SESSION_COOKIE_SECURE" != "NOT SET" ]; then
+    SESSION_COOKIE_SECURE=$(echo "$SESSION_COOKIE_SECURE" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+    echo "[Entrypoint] SESSION_COOKIE_SECURE (after strip)=${SESSION_COOKIE_SECURE}" >&2
+fi
+echo "[Entrypoint] === End Debug ===" >&2
 
 # Configure PHP session settings from environment variables
 # Update .user.ini file if it exists
