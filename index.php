@@ -1,31 +1,14 @@
 <?php
 
-// Force session cookie settings - MUST be set before session_start() is called
-// Use session_set_cookie_params() to explicitly control cookie parameters
-// Set domain to empty string so NO Domain attribute is sent in Set-Cookie header
-// This allows browser to automatically use the current request host
-session_set_cookie_params([
-    'lifetime' => 0,  // Session cookie (expires when browser closes)
-    'path' => '/',
-    'domain' => '',   // Empty = no Domain attribute = browser uses current host
-    'secure' => true, // HTTPS only
-    'httponly' => true,
-    'samesite' => 'Lax'
-]);
-
-// Also set via ini_set as backup
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
-
 // Trust reverse proxy headers (Railway, etc.)
 // This tells PHP that the connection is HTTPS when behind a proxy
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
     $_SERVER['REQUEST_SCHEME'] = 'https';
 }
+
+// Hardcode session cookie domain for Railway
+ini_set('session.cookie_domain', 'amember-production.up.railway.app');
 
 if (!defined('APPLICATION_CONFIG'))
     define('APPLICATION_CONFIG', dirname(__FILE__) . '/application/configs/config.php');
