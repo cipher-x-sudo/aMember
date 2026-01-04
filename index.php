@@ -48,12 +48,38 @@ if (isset($_GET['debug'])) {
     echo "Path exists: " . (file_exists($sessionPath) ? 'YES' : 'NO') . "\n";
     echo "Path is writable: " . (is_writable($sessionPath) ? 'YES' : 'NO') . "\n";
     
-    // Try to start a session
-    @session_start();
-    echo "Session started: " . (session_status() === PHP_SESSION_ACTIVE ? 'YES' : 'NO') . "\n";
+    // Check session status before starting
+    echo "Session status before start: " . session_status() . " (0=disabled, 1=none, 2=active)\n";
+    
+    // Try to start a session with error reporting
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    
+    // Check if headers already sent
+    if (headers_sent($file, $line)) {
+        echo "Headers already sent in $file on line $line\n";
+    } else {
+        echo "Headers not sent yet - good\n";
+    }
+    
+    // Try starting session
+    $sessionResult = session_start();
+    echo "session_start() returned: " . ($sessionResult ? 'TRUE' : 'FALSE') . "\n";
+    echo "Session status after start: " . session_status() . " (0=disabled, 1=none, 2=active)\n";
     echo "Session ID: " . session_id() . "\n";
-    $_SESSION['test'] = 'debug_test_' . time();
-    echo "Session test value set: " . $_SESSION['test'] . "\n";
+    
+    // Check for any session errors
+    $lastError = error_get_last();
+    if ($lastError) {
+        echo "Last PHP error: " . print_r($lastError, true) . "\n";
+    }
+    
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        $_SESSION['test'] = 'debug_test_' . time();
+        echo "Session test value set: " . $_SESSION['test'] . "\n";
+    } else {
+        echo "Session NOT active - cannot set test value\n";
+    }
     
     echo "\n\n=== REQUEST HEADERS (Proxy Info) ===\n";
     echo "HTTP_X_FORWARDED_PROTO: " . ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'not set') . "\n";
